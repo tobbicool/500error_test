@@ -1,0 +1,9 @@
+---
+const { character } = Astro.props;
+---
+
+<div class="progress-bar-container">
+    <div id={`overview-progress-${character}-bar`} class="progress-bar">
+        <span id={`overview-progress-${character}-text`}>0%</span>
+    </div>
+</div>

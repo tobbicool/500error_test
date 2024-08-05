@@ -1,0 +1,175 @@
+---
+const { enableStyleChange } = Astro.props;
+const { inputWrapper } = Astro.props;
+const { input } = Astro.props;
+---
+
+<div
+    class="search-bar"
+    data-enable-style-change={enableStyleChange ? "true" : "false"}
+>
+    <div style={inputWrapper} class="search-bar__input-wrapper">
+        <input
+            style={input}
+            type="text"
+            class="searchInput"
+            placeholder="Search a character..."
+            autocomplete="off"
+        />
+        <button class="searchButton">
+            <img src="../../media/icons/search-icon.svg" alt="Search-icon" />
+        </button>
+    </div>
+
+    <div class="resultsContainer"></div>
+    <!-- IMPORTANT: New characters needs to be added to the char-info.json in each language -->
+</div>
+
+<style lang="scss">
+    .search-bar {
+        position: relative;
+
+        --transition-time: 0.5s;
+
+        &__input-wrapper {
+            // Styles when search bar is minimized (.active is disabled)
+            background-color: hsla(0, 0%, 100%, 0);
+            height: 3rem;
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all var(--transition-time);
+            border-radius: 1.5rem;
+            padding-left: 0;
+
+            input {
+                width: 0;
+                height: 2rem;
+                border: 0;
+                font-size: var(--fs-large);
+                outline: none;
+                transition: all var(--transition-time);
+                background-color: transparent;
+                text-overflow: ellipsis;
+
+                @media screen and (max-width: 440px) {
+                    font-size: var(--fs-medium);
+                }
+            }
+
+            button {
+                background-color: hsla(0, 0%, 100%, 0);
+                cursor: pointer;
+                height: 3rem;
+                width: 3rem;
+                border: none;
+
+                &:hover {
+                    border-bottom: 1px solid hsl(0, 0%, 69%);
+                    margin-bottom: -1px;
+                }
+
+                &:active {
+                    background-color: hsla(0, 0%, 0%, 0.153);
+                }
+
+                img {
+                    height: 2rem;
+                    padding: 0 0.5rem 0 0.3rem;
+                    margin: 0;
+                    pointer-events: none;
+                }
+            }
+        }
+
+        .resultsContainer {
+            position: absolute;
+            margin-top: 20px;
+            width: fit-content;
+            top: 1.6rem;
+            left: 0.7rem;
+            background-color: white;
+            color: #000000;
+            z-index: 1500;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        // Styles for when search bar is full length (enableStyleChange is false and .active class is added)
+        &.active .search-bar {
+            &__input-wrapper {
+                padding-left: 1rem;
+                border-radius: 0.6rem;
+                background-color: hsla(0, 0%, 100%, 100%);
+
+                
+                input {
+                    width: 15rem;
+                }
+                
+                @media screen and (max-width: 440px) {
+                    width: 100%;
+
+                    input {
+                        width: 100%;
+                    }
+                }
+
+                button {
+                    border-radius: 0 0.6rem 0.6rem 0;
+
+                    &:hover {
+                        border-bottom: 1px solid hsla(0, 0%, 69%, 0);
+                    }
+                }
+            }
+        }
+    }
+
+    /******** Styling of results don't work here. Find them in search-bar.scss *********/
+</style>
+
+<script>
+    /////// Enable style change on button click + auto focus on button click, if empty
+    window.addEventListener("load", function () {
+        const searchBars = document.querySelectorAll(".search-bar");
+
+        searchBars.forEach((searchBar) => {
+            const enableStyleChange =
+                (searchBar as HTMLElement).dataset.enableStyleChange === "true";
+
+            const searchButton = searchBar.querySelector(
+                ".searchButton",
+            ) as HTMLButtonElement;
+
+            const searchInput = searchBar.querySelector(
+                ".searchInput",
+            ) as HTMLInputElement;
+
+            // Initial state setup
+            if (!enableStyleChange) {
+                searchBar.classList.add("active");
+            }
+
+            searchButton.addEventListener("click", (event) => {
+                event.stopPropagation(); // Prevent the click from propagating to the document
+                if (enableStyleChange) {
+                    searchBar.classList.add("active");
+                }
+                if (!searchInput.value) {
+                    searchInput.focus();
+                }
+            });
+
+            document.addEventListener("click", (event) => {
+                const target = event.target as Node;
+                if (enableStyleChange && !searchBar.contains(target)) {
+                    searchBar.classList.remove("active");
+                }
+            });
+        });
+    });
+</script>
+
+<script src="../scripts/search-bar.js"></script>

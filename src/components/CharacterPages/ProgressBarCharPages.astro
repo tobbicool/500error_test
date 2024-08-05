@@ -1,0 +1,41 @@
+---
+/////// Dynamic character ID based on website url (will always be in english, because of the fallback, I think)
+import { getCharacterName } from '../../scripts/character-name-from-url.js';
+const characterName = getCharacterName(Astro.request.url);
+---
+
+<div id="char-page-progress" class="progress-wrapper">
+    <div class="progress-bar-container">
+        <div id={`progress-${characterName}-bar`} class="progress-bar">
+            <span id={`progress-${characterName}-text`}>0%</span>
+        </div>
+    </div>
+</div>
+
+<style>
+.progress-wrapper {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: .5rem;
+    transform-origin: bottom right;
+    z-index: 120;
+}
+
+
+/* See progress-char-page.js for animation usage */
+
+@keyframes progressAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+</style>
