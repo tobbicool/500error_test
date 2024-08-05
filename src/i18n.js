@@ -16,6 +16,9 @@ export const namespaces = ['common', 'routes'];
 
 const i18n = i18next.createInstance();
 
+// New: Add a flag to track initialization status
+let isInitialized = false;
+
 async function loadTranslations(lng, ns) {
   console.log(`Attempting to load translations for ${lng}/${ns}`);
   
@@ -75,6 +78,12 @@ async function loadTranslations(lng, ns) {
 }
 
 export async function initI18n() {
+  // New: Check if i18n is already initialized
+  if (isInitialized) {
+    console.log('i18n is already initialized');
+    return i18n;
+  }
+
   console.log('Initializing i18n');
   const resources = {};
   for (const lng of supportedLngs) {
@@ -97,6 +106,10 @@ export async function initI18n() {
   });
 
   console.log('i18n initialization completed');
+  
+  // New: Set the initialization flag
+  isInitialized = true;
+  
   return i18n;
 }
 
