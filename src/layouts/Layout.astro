@@ -1,0 +1,45 @@
+---
+
+
+// Translation
+import { initI18n } from "../i18n";
+import { setupI18n } from "../utils/language-utils.js";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+const lang = setupI18n(Astro.url.pathname);
+const i18n = await initI18n();
+
+i18n.changeLanguage(lang);
+---
+
+<html lang={lang}>
+    <head>
+
+        <title>Plants</title>
+
+    </head>
+    <body>
+
+        <main>
+            <slot />
+        </main>
+    </body>
+</html>
+
+<script>
+    // We don't need to import i18n here as we're not using it directly in the client-side code
+
+    document.addEventListener("astro:language-change", (event) => {
+        // Use type assertion to tell TypeScript about the structure of the event
+        const customEvent = event as CustomEvent<{ lang: string }>;
+        const newLang = customEvent.detail.lang;
+        document.documentElement.lang = newLang;
+
+        // Reload the page to apply the new language
+        window.location.reload();
+    });
+</script>

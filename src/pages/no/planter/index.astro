@@ -1,10 +1,10 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "../../../layouts/Layout.astro";
 
 // Translation
-import Trans from "../../components/Trans.astro";
-import { initI18n } from "../../i18n";
-import { setupI18n } from "../../utils/language-utils";
+import Trans from "../../../components/Trans.astro";
+import { initI18n } from "../../../i18n";
+import { setupI18n } from "../../../utils/language-utils";
 
 const i18n = await initI18n();
 const lang = setupI18n(Astro.url.pathname);
@@ -26,14 +26,13 @@ function getLocalizedPath(key: string) {
 
         <div class="home-hero__bottom">
             <header class="fadeInDown fade2">
-                <h1><Trans key="common:heroHeader" /></h1>
+                <h1><Trans key="common:plantsHeader" /></h1>
                 <h1>Hey</h1>
-                <p><Trans key="common:heroDescription" /></p>
+                <p><Trans key="common:plantsDescription" /></p>
 
             </header>
         </div>
     </section>
 
-   
-
+    </script>
 </Layout>
