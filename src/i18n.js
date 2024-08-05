@@ -3,7 +3,7 @@ import i18next from 'i18next';
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
-// The languageMapping is used in src/middleware.js to make the page redirect to the preferred language correctly using the browser's preference.
+
 export const languageMapping = {
   'nb': 'no',
   'nn': 'no',
@@ -33,13 +33,14 @@ async function loadTranslations(lng, ns) {
     }
   } else {
     // Client-side: Fetch from an API endpoint
-    try {
-      const response = await fetch(`/api/translations/${lng}/${ns}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-      return {};
-    }
+    // try {
+    //   const response = await fetch(`/api/translations/${lng}/${ns}`);
+    //   return await response.json();
+    // } catch (error) {
+    //   console.error(`Failed to load translations for ${lng}/${ns}:`, error);
+    //   return {};
+    // }
+    return {};
   }
 }
 
