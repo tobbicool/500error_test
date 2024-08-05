@@ -11,10 +11,4 @@ export default defineConfig({
       prefixDefaultLocale: false
     }
   },
-  routes: [
-    {
-      path: '/api/translations/:lang/:ns',
-      component: 'src/pages/api/translations/[lang]/[ns].js',
-    },
-  ], 
 });
