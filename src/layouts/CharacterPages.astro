@@ -1,0 +1,124 @@
+---
+import HeadComponent from "../components/HeadComponent.astro";
+import Navbar from "../components/Nav/Navbar.astro";
+import ContactUs from "../components/Contact/ContactUs.astro";
+import FooterComponent from "../components/FooterComponent.astro";
+import Suggestions from "../components/CharacterPages/SuggestionsWrapper.astro";
+import ProgressBarCharPages from "../components/CharacterPages/ProgressBarCharPages.astro";
+import "../styles/char-pages.scss";
+import LanguageSelectionModal from "../components/LanguageSelectionModal.astro";
+import CookieConsentModal from "../components/CookieConsentModal.astro";
+
+// Dynamic character fetching
+import { getCharacterName } from "../scripts/character-name-from-url.js";
+const characterName = getCharacterName(Astro.request.url);
+
+
+// Translation
+import { initI18n } from "../i18n";
+import { setupI18n } from "../utils/language-utils.js";
+
+interface Props {
+    title: string;
+}
+
+const { title } = Astro.props;
+const lang = setupI18n(Astro.url.pathname);
+const i18n = await initI18n();
+
+i18n.changeLanguage(lang);
+---
+
+<html lang={lang}>
+    <head>
+        <!--
+        Author: Tobias Norheim
+        Note: Snarveien
+
+        "For God so loved the world,
+        that he gave his only Son, that
+        whoever believes in him should
+        not perish but have eternal life."
+        - John 3:16
+    -->
+
+        <link rel="preload" href="/media/logo.svg" as="image" />
+
+        <link
+            rel="preload"
+            href={`../../media/characters/${characterName}/hero.svg`}
+            as="image"
+        />
+
+        <title>Bible Characters</title>
+
+        <!-- meta tags -->
+
+        <HeadComponent />
+
+        <style>
+            .survey-wrapper {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+            }
+            .survey {
+                padding: 1rem;
+                border-radius: 1rem;
+                font-size: 2rem;
+                text-decoration: underline;
+                background-color: orange;
+                color: white;
+                text-align: center;
+                width: min-content;
+            }
+
+            @media screen and (max-width: 760px) {
+                .survey {
+                    font-size: 2rem;
+                    padding: 1rem 0.5rem;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <Navbar />
+
+        <main>
+
+            <div id=`${characterName}` data-character-name={characterName}>
+                <slot />
+            </div>
+
+            <!-- <div class="survey-wrapper"><a class="survey" href="" target="_blank">Ta spørre-undersøkelsen her!</a></div> -->
+
+            <Suggestions />
+
+            <ContactUs homePage="display: none;" />
+
+            
+            <ProgressBarCharPages />
+        </main>
+        
+        <FooterComponent />
+
+        <CookieConsentModal />
+        
+        <script src="../scripts/progress-char-page.js"></script>
+    </body>
+</html>
+
+
+<script>
+    // We don't need to import i18n here as we're not using it directly in the client-side code
+
+    document.addEventListener("astro:language-change", (event) => {
+        // Use type assertion to tell TypeScript about the structure of the event
+        const customEvent = event as CustomEvent<{ lang: string }>;
+        const newLang = customEvent.detail.lang;
+        document.documentElement.lang = newLang;
+
+        // Reload the page to apply the new language
+        window.location.reload();
+    });
+</script>

@@ -1,0 +1,19 @@
+// .btn color
+@mixin button-styles($clr) {
+    background-color: var(--#{$clr});
+    border: 2px solid var(--#{$clr});
+
+    &:hover {
+        color: var(--#{$clr});
+        background-color: transparent;
+        cursor: pointer;
+    }
+}
+
+
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

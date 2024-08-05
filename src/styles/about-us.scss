@@ -1,0 +1,50 @@
+.creators {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-block: 2rem;
+
+    &__person {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: center;
+        width: 200px;
+
+        img {
+            width: 100%;
+            border-radius: 500px;
+            background-color: var(--tertiary-clr-2);
+            margin-bottom: 1rem;
+        }
+
+        &__name {
+            font-size: var(--fs-large);
+        }
+    }
+}
+
+.thanks-to {
+    gap: 1rem;
+    max-width: 500px;
+    margin-inline: auto;
+}
+
+
+@media screen and (max-width: 600px) {
+    .creators {
+        margin-block: 1rem;
+    
+        &__person {
+            width: 150px;
+    
+            img {
+                width: 100%;
+                border-radius: 500px;
+                background-color: var(--tertiary-clr-2);
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}

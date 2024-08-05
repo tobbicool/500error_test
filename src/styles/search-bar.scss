@@ -1,0 +1,49 @@
+/* These styles count for the whole of ALL pages, because of scoping issues inside the component, and all pages because it's meant to be in the navbar. */
+
+.search-bar {
+    .no-results {
+        color: hsl(0, 0%, 50%);
+        font-weight: 400;
+        padding: 10px;
+        border: 1px solid hsl(0, 0%, 86%);
+    }
+
+    .result-item {
+        background-color: hsl(0, 0%, 100%);
+        color: hsl(0, 0%, 0%);
+        border: 1px solid var(--list-division);
+        margin-bottom: -1px;
+
+        &:hover {
+            background-color: var(--list-hover);
+        }
+
+        &:first-child {
+            border-radius: .5rem .5rem 0 0;
+        }
+
+        &:last-child {
+            border-radius: 0 0 .5rem .5rem;
+        }
+
+        .result-link {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+
+        }
+
+        .custom-text {
+            margin-left: 10px;
+            font-size: 15px;
+            color: hsl(0, 0%, 50%);
+        }
+    }
+
+    .highlighted {
+        background-color: var(--list-hover);
+    }
+}

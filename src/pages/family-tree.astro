@@ -1,0 +1,102 @@
+---
+import "/src/styles/main.scss";
+import "/src/styles/fam-tree.scss";
+import "/src/styles/fam-tree-nodes.scss";
+import Layout from "../layouts/FamilyTree.astro";
+import FooterComponent from "../components/FooterComponent.astro";
+
+// i18next translation
+import Trans from '../components/Trans.astro';
+import { initI18n } from "../i18n";
+const i18n = await initI18n();
+---
+
+<Layout title={i18n.t('title', { ns: 'home' })}>
+    <div class="fam-tree-sidebar-wrapper">
+        <header class="fam-tree-sidebar">
+            <h1>Biblical Family Tree</h1>
+            <div class="fam-tree-sidebar__tips-wrapper">
+                <div class="fam-tree-sidebar__tips">
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/relation-figure.svg" alt="Relationship, green full or dashed line">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        Romantic relationship
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/jesus-line-figure.svg" alt="Messianic lineage, full line">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        Messianic line
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/descendant-figure.svg" alt="Descendant, brown full or dashed line">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        Descendant
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/hoverable-figure.svg" alt="Light brown node, more info">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        More info
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/united-israel-icon.svg" alt="Light brown node, more info">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        King of: United Kingdom of Israel
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/family-tree/judah-icon.svg" alt="Light brown node, more info">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        King of: Kingdom of Judah
+                    </div>
+                    <div class="fam-tree-sidebar__tips__figure">
+                        <img src="/media/icons/collapsed-icon.svg" alt="Collapsed icon">
+                    </div>
+                    <div class="fam-tree-sidebar__tips__description">
+                        Collapsed branch
+                    </div>
+                </div>
+            </div>
+            <div class="fam-tree-sidebar__additional-tips">
+                <div class="fam-tree-sidebar__additional-tips__pc">
+                    <ul>
+                        <li>Hover to see more information</li>
+                        <li>Click to collapse children nodes</li>
+                        <li>Trackpad: Don't pinch to zoom, "scroll" instead</li>
+                    </ul>
+                </div>
+                <div class="fam-tree-sidebar__additional-tips__touch">
+                    <ul>
+                        <li>Single tap to see more info</li>
+                        <li>Tap twice to collapse children nodes (tap once when blue)</li>
+                    </ul>
+                </div>
+            </div>
+            <button class="fam-tree-sidebar__arrow">
+                <img src="/media/icons/arrow.svg" alt="Hide tips">
+            </button>
+        </header>
+    </div>
+
+    <!-- To fill space between sidebar and footer -->
+    <div class="sidebar-fill"></div>
+
+
+    <div class="fam-tree-container">
+        <div id="fam-tree" class="fam-tree">
+            <!-- html generated in fam-tree-nodes.js -->
+        </div>
+    </div>
+
+    <div class="fam-tree-footer">
+        <FooterComponent />
+    </div>
+
+    <script src="/src/scripts/family-tree/fam-tree-other.js"></script>
+    <script src="/src/scripts/family-tree/fam-tree-names.js"></script>
+    <script src="/src/scripts/family-tree/fam-tree-nodes.js"></script>
+</Layout>

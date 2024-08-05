@@ -1,0 +1,61 @@
+.char-section {
+    padding-block: 3rem;
+}
+
+/* .char-section:nth-child(even) {
+    background-color: var(--alt-primary-clr);
+} */
+
+
+/*** General for sliders ***/
+.slider-dot {
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin: 0 4px;
+    background-color: var(--dot-passive);
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active-slider-dot {
+    background-color: var(--dot-active);
+}
+
+
+/*** Swipe story ***/
+.swipe-story__dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    transition: all .3s;
+
+    .swipe-story__dot {
+        height: 12px;
+        width: 12px;
+        margin-inline: 5px;
+        background-color: var(--dot-passive);
+        border-radius: 50%;
+        display: inline-block;
+        cursor: pointer;
+
+        &.active {
+            background-color: var(--dot-active);
+        }
+    }
+}
+
+
+
+
+
+@media screen and (max-width: 420px) {
+    .swipe-story__dots.outside-slider {
+        padding-left: 14%;
+    }
+
+    .swipe-story__dot {
+        margin-inline: 4px;
+    }
+}

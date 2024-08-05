@@ -1,9 +1,13 @@
 ---
-
+import HeadComponent from "../components/HeadComponent.astro";
+import Navbar from "../components/Nav/Navbar.astro";
+import FooterComponent from "../components/FooterComponent.astro";
+import LanguageSelectionModal from "../components/LanguageSelectionModal.astro";
+import CookieConsentModal from "../components/CookieConsentModal.astro";
 
 // Translation
 import { initI18n } from "../i18n";
-import { setupI18n } from "../utils/language-utils.js";
+import { setupI18n } from "../utils/language-utils";
 
 interface Props {
     title: string;
@@ -18,17 +22,38 @@ i18n.changeLanguage(lang);
 
 <html lang={lang}>
     <head>
+        <!--
+        Author: Tobias Norheim
+        Note: Snarveien
 
-        <title>Plants</title>
+        "For God so loved the world,
+        that he gave his only Son, that
+        whoever believes in him should
+        not perish but have eternal life."
+        - John 3:16
+    -->
+
+        <link rel="preload" href="/media/logo.svg" as="image" />
+
+        <title>Bible Characters</title>
+
+        <!-- meta tags -->
+
+        <HeadComponent />
 
     </head>
     <body>
 
+        <Navbar />
+
         <main>
             <slot />
         </main>
+
+        <CookieConsentModal />
     </body>
 </html>
+
 
 <script>
     // We don't need to import i18n here as we're not using it directly in the client-side code

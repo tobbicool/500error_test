@@ -1,0 +1,35 @@
+---
+import Layout from "../../layouts/CharacterPages.astro";
+import Hero from "../../components/CharacterPages/Hero.astro";
+import SwipeStory from "../../components/CharacterPages/SwipeStory.astro";
+import ImportantEvents from "../../components/CharacterPages/ImportantEvents.astro";
+import FunFactsSlider from "../../components/CharacterPages/FunFactsSlider.astro";
+import Quiz from "../../components/CharacterPages/Quiz.astro";
+import WhereFindThem from "../../components/CharacterPages/WhereFindThem.astro";
+import FurtherReading from "../../components/CharacterPages/FurtherReading.astro";
+
+// i18next translation
+import MainLayout from '../../layouts/MainLayout.astro';
+import Trans from '../../components/Trans.astro';
+import { initI18n } from "../../i18n";
+const i18n = await initI18n();
+---
+
+
+<Layout title={i18n.t('title', { ns: 'home' })}>
+
+    <Hero />
+
+    <SwipeStory />
+
+    <ImportantEvents />
+
+    <FunFactsSlider />
+
+    <Quiz />
+
+    <WhereFindThem />
+
+    <FurtherReading />
+
+</Layout>

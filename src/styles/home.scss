@@ -1,0 +1,537 @@
+/* * {
+    outline: 1px solid yellow;
+} */
+
+
+@import 'mixins';
+
+
+/********** Hero ******/
+
+.home-hero {
+    --padding-top: clamp(80px, 10vh, 200px);
+
+    position: relative;
+    z-index: 50;
+    height: 100vh;
+    height: 100svh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    --hero-grid-gap: 2rem;
+    gap: var(--hero-grid-gap);
+    padding: var(--padding-top) 2.5rem 2.5rem 2.5rem;
+
+    &__top {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    &__bottom {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--secondary-clr);
+        border-radius: 4rem 4rem 1.5rem 1.5rem;
+        padding: 4rem;
+        gap: 3rem;
+    }
+
+    header {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 2rem;
+        color: var(--primary-clr);
+        max-width: 1200px;
+        padding-left: 6rem;
+        flex: 1;
+        z-index: 100;
+
+        h1 {
+            margin-bottom: -.9rem;
+            /* Compensation for large font size */
+        }
+
+        p {
+            color: var(--primary-clr);
+            font-weight: 300;
+        }
+    }
+
+    &__cta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    &__card {
+        @include flex-center;
+        flex-direction: column;
+        gap: 1rem;
+        background-color: #ffffff;
+        flex: 1;
+        padding: 1rem;
+        border-radius: 1rem;
+        width: 290px;
+        height: 250px;
+
+        img {
+            max-height: 100px;
+            width: 100%;
+        }
+
+        .btn {
+            @include button-styles(accent-clr-1);
+
+            & {
+                width: 80%;
+            }
+
+        }
+    }
+}
+
+.arrow-down {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    align-self: center;
+    filter: invert(100%) sepia(47%) saturate(362%) hue-rotate(295deg) brightness(101%) contrast(92%); // Make arrow beige
+    border-radius: 200px;
+    width: 4rem;
+    height: 4rem;
+}
+
+.arrow-down img {
+    padding: .9rem;
+}
+
+
+
+@media screen and (max-width: 1500px) {
+
+    .home-hero {
+        header {
+            padding-left: 0;
+        }
+    }
+
+}
+
+@media screen and (max-width: 1300px) {
+
+    .home-hero {
+        height: 100vh;
+        height: 100svh;
+        gap: 1rem;
+
+        &__bottom {
+            flex-direction: column;
+        }
+
+        &__cta {
+            justify-content: center;
+            padding: 0 2.5rem 2.5rem 2.5rem;
+        }
+    }
+}
+
+.arrow-down {
+    display: block;
+}
+
+
+@media screen and (max-width: 980px) {
+
+    .home-hero {
+        &__bottom {
+            gap: .5rem;
+        }
+    }
+}
+
+
+@media screen and (max-width:760px) {
+
+    .home-hero {
+        &__cta {
+            flex-direction: column;
+        }
+
+        &__card {
+            width: 100%;
+            min-height: 250px;
+        }
+    }
+
+}
+
+
+
+@media screen and (max-width:500px) {
+
+    .home-hero {
+        padding: var(--padding-top) 1rem 1rem 1rem;
+
+        &__bottom {
+            padding: 2rem;
+            padding-bottom: 4rem;
+            border-radius: 3rem 3rem 1.5rem 1.5rem;
+        }
+
+        &__cta {
+            padding: 1rem;
+        }
+    }
+
+}
+
+@media screen and (max-height:810px) and (min-width: 500px) {
+    .home-hero {
+        height: fit-content;
+    }
+}
+
+@media screen and (max-height:450px) {
+    .home-hero {
+        height: fit-content;
+    }
+}
+
+@media screen and (max-height:680px) {
+
+    .home-hero {
+        height: fit-content;
+    }
+}
+
+
+/********* Info sections ********/
+
+.info-section {
+    @include flex-center;
+    min-height: 50vh;
+    min-height: 50svh;
+    gap: 2rem;
+    padding-inline: var(--marg-inline-md);
+    padding-block: 4rem;
+    overflow-x: hidden;
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        border-radius: 1rem;
+        gap: 1rem;
+
+        h2 {
+            margin-bottom: -.25rem; // Compensation for large text
+        }
+    }
+}
+
+.about {
+    img {
+        width: 600px;
+    }
+
+    .btn {
+        @include button-styles(accent-clr-2);
+    }
+}
+
+.infographics {
+    align-items: flex-start;
+    background-color: var(--alt-primary-clr);
+    padding-top: 5rem;
+
+    &__content {
+        font-weight: 700;
+        width: 100%;
+        max-width: 1200px;
+        height: 500px;
+        position: relative;
+
+        .starter-text {
+            font-size: 2.5rem
+        }
+
+        .circle-content {
+            position: absolute;
+            width: fit-content;
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            &:nth-of-type(1) {
+                left: 45%;
+                top: 17%;
+            }
+
+            &:nth-of-type(2) {
+                right: 10%;
+                top: 20%;
+            }
+
+            &:nth-of-type(3) {
+                left: 20%;
+                bottom: 20%;
+
+                p {
+                    font-size: 2rem;
+                    position: absolute;
+                    left: 110px;
+                    top: 85%;
+                    width: max-content;
+                }
+            }
+
+            .circle {
+                @include flex-center;
+                border-radius: 50%;
+                color: var(--secondary-clr);
+            }
+
+            .circle-1 {
+                background-color: var(--tertiary-clr-2);
+                width: 150px;
+                height: 150px;
+                font-size: 3rem;
+            }
+
+            .circle-2 {
+                background-color: var(--tertiary-clr-1);
+                width: 200px;
+                height: 200px;
+                font-size: 4rem;
+            }
+
+            .circle-3 {
+                width: 120px;
+                height: 120px;
+                font-size: 2rem;
+            }
+
+            .overall-progress-circle {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: conic-gradient(var(--tertiary-clr-4) var(--progress, 0%), #ffffff00 var(--progress, 0%));
+            }
+        }
+    }
+}
+
+.beliefs {
+    padding-block: 4rem;
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+
+        h2,
+        p {
+            padding: 2rem;
+            border-radius: 1.3rem;
+        }
+
+        h2 {
+            background-color: var(--tertiary-clr-4);
+            text-align: center;
+        }
+
+        p {
+            strong {
+                padding: 0;
+                font-size: 1.3rem;
+                line-height: .5; // It just has to be smaller than the rest of the text, so that it doesn't extend the line height where the 'strong' is.
+            }
+
+            &:nth-of-type(2) {
+                background-color: var(--secondary-clr);
+                color: var(--primary-clr);
+                font-weight: 300;
+            }
+
+            &:nth-of-type(4) {
+                background-color: var(--tertiary-clr-1);
+            }
+        }
+    }
+}
+
+
+@media screen and (max-width: 1000px) {
+
+    .info-section {
+        flex-direction: column;
+
+        &:nth-of-type(2) {
+            flex-direction: column;
+        }
+
+    }
+
+    .about {
+        img {
+            width: 500px;
+        }
+
+        .btn {
+            align-self: center;
+        }
+    }
+
+    .infographics {
+        &__content {
+            .starter-text {
+                font-size: 2rem
+            }
+
+            .circle-content {
+
+                p {
+                    font-size: 1.2rem;
+                }
+
+                &:nth-of-type(1) {
+                    left: 35%;
+                }
+
+                &:nth-of-type(2) {
+
+                    p {
+                        position: relative;
+                        font-size: 1.3rem;
+                        left: 20px;
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    left: 10%;
+                    bottom: 15%;
+
+                    p {
+                        font-size: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+@media screen and (max-width: 760px) {
+
+    .infographics {
+        &__content {
+            .starter-text {
+                font-size: 2rem
+            }
+
+            .circle-content {
+
+                p {
+                    font-size: 1.2rem;
+                }
+
+                &:nth-of-type(1) {
+                    left: 17%;
+                }
+
+                &:nth-of-type(2) {
+                    right: 2%;
+                }
+            }
+        }
+    }
+
+    .beliefs {
+
+        h2,
+        p {
+            padding: 1.2rem;
+        }
+
+        p strong {
+            font-size: 1.15rem;
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+
+    .about {
+        img {
+            width: 400px;
+        }
+    }
+
+    .infographics {
+        padding-top: 3rem;
+
+        &__content {
+            height: 550px;
+
+            .starter-text {
+                font-size: 2rem
+            }
+
+            .circle-content {
+
+                p {
+                    font-size: 1.2rem;
+                }
+
+                &:nth-of-type(1) {
+                    left: 0;
+                    top: 23%;
+                }
+
+                &:nth-of-type(2) {
+                    right: -7%;
+                    top: 27%;
+
+                    p {
+                        position: relative;
+                        left: 0px;
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    left: 0;
+                    top: 70%;
+
+                    p {
+                        max-width: 200px;
+                    }
+                }
+
+                .circle-1 {
+                    width: 120px;
+                    height: 120px;
+                    font-size: 2.5rem;
+                }
+
+                .circle-2 {
+                    width: 160px;
+                    height: 160px;
+                    font-size: 2.7rem;
+                }
+
+                .circle-3 {
+                    width: 90px;
+                    height: 90px;
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+}
