@@ -13,9 +13,7 @@ export const languageMapping = {
   'en-gb': 'en',
 };
 
-export const namespaces = ['common', 'home', 'routes', 'links', 'char-info', 'char-pages-general', 'cookie-consent',
-  'character-john', 'character-moses', 'character-moses-questions', 
-  'character-paul', 'character-paul-questions'];
+export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
