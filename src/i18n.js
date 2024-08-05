@@ -32,7 +32,7 @@ async function loadTranslations(lng, ns) {
       try {
         // In production, we'll use an API call or a different method to load translations
         // This is a placeholder - replace with your actual production loading logic
-        const response = await fetch(`https://your-api-endpoint.com/translations/${lng}/${ns}`);
+        const response = await fetch(`https://cerulean-babka-d9e21d.netlify.app/translations/${lng}/${ns}`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
