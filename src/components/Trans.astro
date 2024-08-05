@@ -1,0 +1,23 @@
+---
+import { i18n } from '../i18n';
+import DOMPurify from 'isomorphic-dompurify';
+
+const { key, ns = 'common' } = Astro.props;
+
+const unsafeHtml = i18n.t(key, { ns });
+
+const purifyConfig = {
+  ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li'],
+  ALLOWED_ATTR: ['href', 'target']
+};
+
+const safeHtml = DOMPurify.sanitize(unsafeHtml, purifyConfig);
+---
+
+<span class="i18n-span" data-i18n-key={key} data-i18n-ns={ns} set:html={safeHtml}></span>
+
+<script>
+  document.addEventListener('astro:language-change', () => {
+    window.location.reload();
+  });
+</script>

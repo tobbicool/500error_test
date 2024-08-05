@@ -1,0 +1,38 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+
+// Translation
+import Trans from "../../../components/Trans.astro";
+import { initI18n } from "../../../i18n";
+import { setupI18n } from "../../../utils/language-utils";
+
+const i18n = await initI18n();
+const lang = setupI18n(Astro.url.pathname);
+
+function getLocalizedPath(key: string) {
+    const basePath = i18n.t(key);
+    // Ensure basePath does not start with a slash to prevent double slashes
+    const normalizedBasePath = basePath.startsWith("/")
+        ? basePath.slice(1)
+        : basePath;
+    return `/${lang === "en" ? "" : lang + "/"}${normalizedBasePath}`;
+}
+---
+
+<Layout title={i18n.t("title", { ns: "home" })}>
+    <section class="home-hero fadeInDown">
+        <div class="home-hero__top">
+        </div>
+
+        <div class="home-hero__bottom">
+            <header class="fadeInDown fade2">
+                <h1><Trans key="common:plantsHeader" /></h1>
+                <h1>Hey</h1>
+                <p><Trans key="common:plantsDescription" /></p>
+
+            </header>
+        </div>
+    </section>
+
+    </script>
+</Layout>
