@@ -1,0 +1,106 @@
+---
+import DivLine from "../DivLine.astro";
+import Suggestions from "../Suggestions.astro";
+import { initI18n } from "../../i18n";
+import { setupI18n } from '../../utils/language-utils';
+import { getLocalizedPath } from '../../utils/route-translation';
+import Trans from '../Trans.astro';
+
+const i18n = await initI18n();
+const currentLang = setupI18n(Astro.url.pathname);
+
+function getLocalizedNavPath(key: string) {
+    const basePath = i18n.t(key);
+    return getLocalizedPath(basePath, currentLang, currentLang);
+}
+---
+
+<div id="suggestions" class="suggestions-container">
+    <DivLine />
+
+    <div class="suggestions-container__nav-wrapper">
+        <h2><Trans key="links:suggestionsHeader" /></h2>
+
+        <nav>
+            <div class="suggestions-container__suggestions-wrapper">
+                <Suggestions />
+            </div>
+
+            <div class="suggestions-container__links">
+                <a class="btn" href={getLocalizedNavPath("links:url-characters")}>
+                    <Trans key="links:characters" />
+                </a>
+                <a class="btn" href={getLocalizedNavPath("links:url-family-tree")}>
+                    <Trans key="links:familyTree" />
+                </a>
+            </div>
+        </nav>
+    </div>
+
+    <DivLine />
+</div>
+
+<style lang="scss">
+    @import "/src/styles/mixins";
+
+    .suggestions-container {
+        padding-top: 3rem;
+
+        &__nav-wrapper {
+            max-width: 100%;
+            padding-inline: 15%;
+            margin-block: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            @media screen and (max-width: 1300px) {
+                padding-inline: 5%;
+            }
+
+            h2 {
+                margin-left: 5rem;
+            }
+
+            nav {
+                @include flex-center;
+                max-width: 100%;
+                gap: 2rem;
+            }
+        }
+
+        &__suggestions-wrapper {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        &__links {
+            @include flex-center;
+            width: 200px;
+            flex-direction: column;
+            gap: 1rem;
+
+            .btn {
+                @include button-styles(accent-clr-2);
+            }
+        }
+    }
+
+    @media screen and (max-width: 760px) {
+        .suggestions-container {
+            &__nav-wrapper {
+                padding-inline: var(--marg-inline-lg);
+
+                h2 {
+                    width: 100%;
+                    margin-left: 0;
+                }
+
+                nav {
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+            }
+        }
+    }
+</style>

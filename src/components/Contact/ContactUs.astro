@@ -1,0 +1,48 @@
+---
+import ContactForm from "../Contact/ContactForm.astro";
+const { charPage, homePage } = Astro.props;
+---
+
+<section id="contact">
+    <div class="contact__text fade-in-left">
+        <h2 style={homePage}>Contact Us</h2>
+        <h2 style={charPage}>Can We Improve?</h2>
+        <p style={homePage}>
+            If you have anything on your mind that you would like to share with
+            us, feel free to leave us a message!
+        </p>
+        <p style={charPage}>
+            We strive to make Bible Characters a fun and educational platform.
+            Are some of our facts wrong? Or do you have any fun ideas? Please
+            let us know!
+        </p>
+    </div>
+
+    <ContactForm />
+</section>
+
+<style lang="scss">
+    section {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-block: 8rem;
+        row-gap: 3rem;
+        column-gap: 1rem;
+
+        @media screen and (max-width: 1000px) {
+            flex-direction: column;
+            padding-block: 5rem;
+        }
+
+        .contact__text {
+            max-width: 30rem;
+            padding-inline: var(--marg-inline-md);
+            border-radius: 1rem;
+
+            p {
+                max-width: 30rem;
+            }
+        }
+    }
+</style>

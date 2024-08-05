@@ -1,0 +1,40 @@
+---
+const { path, text } = Astro.props;
+---
+
+<li class="hamburger-link">
+    <a href={path}>{text}</a>
+    <div class="hover-line"></div>
+</li>
+
+<style lang="scss">
+    li {
+        margin: 2rem 0 2rem 1rem;
+        width: fit-content;
+        height: 1.5rem;
+
+        @media screen and (max-width: 760px) {
+            margin: 1rem;
+        }
+
+        a {
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            margin-bottom: -2px; /*Compensation for hover line*/
+            color: var(--secondary-clr);
+            font-weight: 500;
+        }
+
+        .hover-line {
+            background-color: var(--secondary-clr);
+            height: 2px;
+            width: 0%;
+            transition: 0.3s;
+        }
+
+        &:hover .hover-line {
+            width: 100%;
+        }
+    }
+</style>

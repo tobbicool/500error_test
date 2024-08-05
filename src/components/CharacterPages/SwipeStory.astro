@@ -1,0 +1,346 @@
+---
+import { i18n } from "../../i18n";
+import Trans from "../../components/Trans.astro";
+import { getCharacterName } from "../../scripts/character-name-from-url.js";
+
+const characterName = getCharacterName(Astro.url);
+const currentLang = i18n.language;
+
+function generateTranslationKeys(characterName, index) {
+    return {
+        textKey: `character-${characterName}:swipeStoryText${index}`,
+    };
+}
+
+let slides = [];
+let index = 1;
+while (true) {
+    let { textKey } = generateTranslationKeys(characterName, index);
+    if (!i18n.exists(textKey)) break;
+
+    slides.push({
+        textKey,
+        imgPath: `/media/characters/${characterName}/swipestory${index}.png`, // TODO: make svg later
+    });
+    index++;
+}
+---
+
+<div
+    id="swipe-story"
+    class="swipe-story char-section"
+    data-character-name={characterName}
+    data-current-lang={currentLang}
+>
+    <h2>
+        <Trans key={`character-${characterName}:swipeStoryHeader`} />
+    </h2>
+
+    <div class="swipe-story__wrapper">
+        <div class="swipe-story__slider" id="swipe-story-slider-container">
+            <div class="swipe-story__slide">
+                <img
+                    src={`/media/characters/${characterName}/swipestoryintro.png`}
+                    alt=""
+                />
+                <h3 class="swipe-story__intro-explanation">
+                    <Trans
+                        key={`character-${characterName}:swipeStoryIntroExplaination`}
+                    />
+                </h3>
+                <div class="swipe-story__button-wrapper">
+                    <button class="swipe-story__button" id="playButton">
+                        <img
+                            src="/media/icons/play-icon.svg"
+                            alt="Play"
+                            id="playIcon"
+                            style="display: block;"
+                        />
+                        <img
+                            src="/media/icons/pause-icon.svg"
+                            alt="Pause"
+                            id="pauseIcon"
+                            style="display: none;"
+                        />
+                    </button>
+                </div>
+
+                <div class="swipe-story__gesture">
+                    <img
+                        src="/media/char-pages-misc/swipe-gest.gif"
+                        alt="Swipe to the left"
+                    />
+                </div>
+            </div>
+            {
+                slides.map(({ textKey, imgPath }) => (
+                    <div class="swipe-story__slide">
+                        <img src={imgPath} alt="Slide" />
+                        <p>
+                            <Trans key={textKey} />
+                        </p>
+                    </div>
+                ))
+            }
+            <div class="swipe-story__slide swipe-story__slide--progress">
+                <h3>
+                    <Trans
+                        key={`character-${characterName}:swipeStoryProgressHeader`}
+                    />
+                </h3>
+                <p>
+                    <Trans
+                        key={`character-${characterName}:swipeStoryProgressDescription`}
+                    />
+                </p>
+                <input type="checkbox" id="swipe-story-checkbox" />
+            </div>
+        </div>
+
+        <div class="swipe-story__dots" id="swipe-story-dots-container"></div>
+    </div>
+
+    <audio
+        id="audioPlayer"
+        src={`/media/audio/${currentLang}/characters/${characterName}/summary.wav`}
+    ></audio>
+</div>
+
+<style lang="scss">
+    /* * {
+        outline: 1px solid brown;
+    } */
+
+    .swipe-story {
+        background-color: var(--alt-primary-clr);
+        position: relative;
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            word-break: break-word;
+        }
+
+        &__wrapper {
+            width: 100%;
+            margin: auto;
+            overflow: hidden;
+            perspective: 1000px;
+            cursor: grab;
+
+            &:active {
+                cursor: grabbing;
+            }
+        }
+
+        &__slider {
+            width: 700px;
+            min-height: 500px;
+            display: flex;
+            transform-style: preserve-3d;
+        }
+
+        &__slide {
+            min-width: 100%;
+            width: 100%;
+            min-height: 100%;
+            display: grid;
+            align-items: center;
+            justify-items: center;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: 1fr;
+            gap: 1rem;
+            padding: 2em;
+            border-radius: 2em;
+            transition: all 0.7s ease;
+            backface-visibility: hidden;
+            transform: rotateY(0deg);
+            transform-style: preserve-3d;
+            background-color: var(--primary-clr);
+            overflow: clip;
+
+            & p {
+                max-width: 50ch;
+            }
+
+            &:first-of-type {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                text-align: center;
+
+                img {
+                    height: 5rem;
+                    max-width: 100%;
+                    object-fit: contain;
+                }
+
+                .swipe-story__gesture {
+                    position: absolute;
+                    background-color: #f5efeccb;
+                    width: 100%;
+                    height: 100%;
+
+                    img {
+                        width: 100%;
+                        max-width: 20rem;
+                        height: 100%;
+                        object-fit: contain;
+                    }
+                }
+
+                .swipe-story__intro-explanation {
+                    font-size: 1.5rem;
+                }
+            }
+
+            &:last-of-type {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                p {
+                    max-width: 300px;
+                    text-align: center;
+                }
+            }
+
+            &.previous {
+                transform: rotateY(30deg) translateZ(-100px) translateX(0px)
+                    scaleX(0.8) scale(0.8);
+                opacity: 0.6;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            &.next {
+                transform: rotateY(-30deg) translateZ(-100px) translateX(0px)
+                    scaleX(0.8) scale(0.8);
+                opacity: 0.6;
+
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            &.current {
+                transform: rotateY(0deg) translateZ(0px) translateX(0px);
+            }
+
+            img {
+                width: 100%;
+                max-width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        &__button-wrapper {
+            transition: all 0.7s;
+            height: 55px;
+
+            &.outside-slider {
+                height: 0;
+            }
+        }
+
+        &__button {
+            height: 55px;
+            width: 55px;
+            border-radius: 5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            cursor: pointer;
+            margin: 0;
+            background-color: var(--play-btn-clr);
+
+            &.outside-slider {
+                position: absolute;
+                bottom: 2rem;
+                left: -100%; /* Only before the animation starts */
+                --outside-left: 38%;
+                animation: fadeInButton 0.5s ease-out 0.5s forwards;
+
+                @media screen and (min-width: 2200px) {
+                    --outside-left: 41%;
+                }
+
+                @media screen and (max-width: 1500px) {
+                    --outside-left: 36%;
+                }
+
+                @media screen and (max-width: 1300px) {
+                    --outside-left: 34%;
+                }
+
+                @media screen and (max-width: 1100px) {
+                    --outside-left: 28%;
+                }
+
+                @media screen and (max-width: 760px) {
+                    --outside-left: 15%;
+                }
+
+                @media screen and (max-width: 420px) {
+                    --outside-left: 10%;
+                }
+            }
+
+            &:hover {
+                background-color: var(--play-btn-clr-hover);
+            }
+
+            img {
+                width: 55px;
+            }
+        }
+    }
+
+    /* Playbutton animation */
+
+    @keyframes fadeInButton {
+        from {
+            left: -200px;
+        }
+
+        to {
+            left: var(--outside-left);
+        }
+    }
+
+    @media screen and (max-width: 850px) {
+        .swipe-story__slider {
+            width: 80%;
+        }
+
+        .swipe-story__slide {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto 1fr;
+            max-width: 100%;
+
+            img {
+                width: auto;
+            }
+
+            &.previous {
+                transform: rotateY(30deg) translateZ(-100px) translateX(80px)
+                    scaleX(0.8) scale(0.8);
+                opacity: 0.8;
+            }
+
+            &.next {
+                transform: rotateY(-30deg) translateZ(-100px) translateX(-80px)
+                    scaleX(0.8) scale(0.8);
+                opacity: 0.8;
+            }
+        }
+    }
+
+    /** Dots styles in char-pages.scss, because of scoping issues with Astro **/
+</style>
+
+<script src="/src/scripts/char-pages/swipe-story.js"></script>
