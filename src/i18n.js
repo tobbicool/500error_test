@@ -12,7 +12,7 @@ export const languageMapping = {
   'en-gb': 'en',
 };
 
-export const namespaces = ['common', 'routes'];
+export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 

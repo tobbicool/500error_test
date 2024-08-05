@@ -6,8 +6,15 @@ import ContactUs from "../components/Contact/ContactUs.astro";
 import SearchBar from "../components/SearchBar.astro";
 import '/src/styles/main.scss';
 
+// Count characters from /public/locales/*lang*/char-info.json
 import { countCharacters } from "../utils/count-characters.js";
-const characterCount = await countCharacters();
+let characterCount;
+try {
+  characterCount = await countCharacters();
+} catch (error) {
+  console.error('Error counting characters:', error);
+  characterCount = 0; // Set a default value
+}
 
 // Translation
 import Trans from "../components/Trans.astro";
@@ -90,7 +97,7 @@ function getLocalizedPath(key: string) {
         <div class="infographics__content">
             <p class="starter-text pop-in">Amount of characters...</p>
             <div class="circle-content pop-in">
-                <div class="circle circle-1">{characterCount}</div>
+                <div class="circle circle-1">{characterCount || 'N/A'}</div>
                 <!-- Counts the amount of characters in the char-info.json (en) -->
                 <p>... to explore</p>
             </div>
