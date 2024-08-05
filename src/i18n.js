@@ -33,14 +33,13 @@ async function loadTranslations(lng, ns) {
     }
   } else {
     // Client-side: Fetch from an API endpoint
-    // try {
-    //   const response = await fetch(`/api/translations/${lng}/${ns}`);
-    //   return await response.json();
-    // } catch (error) {
-    //   console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-    //   return {};
-    // }
-    return {};
+    try {
+      const response = await fetch(`/api/translations/${lng}/${ns}`);
+      return await response.json();
+    } catch (error) {
+      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
+      return {};
+    }
   }
 }
 
