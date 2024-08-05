@@ -2,18 +2,10 @@
 import fs from 'fs';
 import path from 'path';
 
-export async function countCharacters() {
+export function countCharacters() {
   try {
-    let filePath;
-    if (import.meta.env.PROD) {
-      // In production, use a path relative to the built files
-      filePath = path.join(process.cwd(), 'dist', 'locales', 'en', 'char-info.json');
-    } else {
-      // In development, use the path in the public folder
-      filePath = path.join(process.cwd(), 'public', 'locales', 'en', 'char-info.json');
-    }
-    
-    const data = await fs.promises.readFile(filePath, 'utf-8');
+    const filePath = path.join(process.cwd(), 'public', 'locales', 'en', 'char-info.json');
+    const data = fs.readFileSync(filePath, 'utf-8');
     const json = JSON.parse(data);
     return Object.keys(json.characters).length;
   } catch (error) {
@@ -21,3 +13,5 @@ export async function countCharacters() {
     return 0; // Return a default value or handle the error as needed
   }
 }
+
+export const CHARACTER_COUNT = countCharacters();
