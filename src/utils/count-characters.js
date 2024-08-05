@@ -1,10 +1,6 @@
+////// Count amount of characters (persons) in the js and use the number on the front page
 import fs from 'fs';
 import path from 'path';
-
-console.log('Current working directory:', process.cwd());
-console.log('Contents of public folder:', fs.readdirSync(path.join(process.cwd(), 'public')));
-console.log('Contents of public/locales folder:', fs.readdirSync(path.join(process.cwd(), 'public', 'locales')));
-console.log('Contents of public/locales/en folder:', fs.readdirSync(path.join(process.cwd(), 'public', 'locales', 'en')));
 
 export function countCharacters() {
   try {
@@ -29,3 +25,6 @@ export function countCharacters() {
     return 0;
   }
 }
+
+export const CHARACTER_COUNT = countCharacters();
+console.log('Exported CHARACTER_COUNT:', CHARACTER_COUNT);
