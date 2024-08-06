@@ -1,9 +1,13 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 
+const middlewareSecret = process.env.MIDDLEWARE_SECRET;
+
 export default defineConfig({
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    middlewareSecret
+  }),
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'no'],
