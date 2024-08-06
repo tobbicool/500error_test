@@ -1,0 +1,20 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Trans from "../../components/Trans.astro";
+import { getLanguageFromURL } from "../../utils/language-utils.js";
+import { initI18n } from "../../i18n";
+
+const lang = getLanguageFromURL(Astro.url.pathname);
+const i18n = await initI18n(lang);
+---
+
+<Layout title="Home Page" i18n={i18n}>
+  <section class="home-hero fadeInDown">
+    <div class="home-hero__bottom">
+      <header class="fadeInDown fade2">
+        <h1><Trans key="common:heroHeader" i18n={i18n} /></h1>
+        <p><Trans key="common:heroDescription" i18n={i18n} /></p>
+      </header>
+    </div>
+  </section>
+</Layout>

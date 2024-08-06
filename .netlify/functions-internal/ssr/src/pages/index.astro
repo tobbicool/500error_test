@@ -1,0 +1,238 @@
+---
+import Layout from "../layouts/MainLayout.astro";
+import InfiniteSlider from "../components/InfiniteSlider.astro";
+import "../styles/home.scss";
+import ContactUs from "../components/Contact/ContactUs.astro";
+import SearchBar from "../components/SearchBar.astro";
+import '/src/styles/main.scss';
+
+import { CHARACTER_COUNT } from "../utils/count-characters.js";
+
+// Translation
+import Trans from "../components/Trans.astro";
+import { initI18n } from "../i18n";
+import { getLanguageFromURL } from "../utils/language-utils.js";
+
+// Get the language from the URL
+const lang = getLanguageFromURL(Astro.url.pathname);
+const i18n = await initI18n(lang);
+
+// Initialize i18n with the detected language
+
+function getLocalizedPath(key: string) {
+    const basePath = i18n.t(key);
+    // Ensure basePath does not start with a slash to prevent double slashes
+    const normalizedBasePath = basePath.startsWith("/")
+        ? basePath.slice(1)
+        : basePath;
+    return `/${lang === "en" ? "" : lang + "/"}${normalizedBasePath}`;
+}
+---
+
+<Layout title="Home Page" i18n={i18n}>
+    <section class="home-hero fadeInDown">
+        <div class="home-hero__top">
+            <!-- <InfiniteSlider /> -->
+        </div>
+
+        <div class="home-hero__bottom">
+            <header class="fadeInDown fade2">
+                <h1><Trans key="common:heroHeader" /></h1>
+                <p><Trans key="common:heroDescription" /></p>
+                <!-- <SearchBar enableStyleChange={false} /> -->
+            </header>
+
+            <a href="#" class="arrow-down" id="scroll-down-arrow">
+                <img src="/media/icons/arrow.svg" alt="Scroll" />
+            </a>
+
+            <div id="hero-cta" class="home-hero__cta">
+                <div class="home-hero__card fadeInDown fade4">
+                    <img src="/media/icons/fam-tree-icon.svg" alt="" />
+                    <a
+                        class="btn"
+                        href={getLocalizedPath("links:url-family-tree")}
+                    >
+                        <Trans key="home:familyTreeButton" />
+                    </a>
+                </div>
+                <div class="home-hero__card fadeInDown fade5">
+                    <img src="/media/icons/char-list-icon.svg" alt="" />
+                    <a
+                        class="btn"
+                        href={getLocalizedPath("links:url-characters")}
+                    >
+                        <Trans key="home:characterListButton" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about info-section">
+        <img
+            class="fade-in-left"
+            src="/media/home/explore-characters.svg"
+            alt="home:altAboutImg"
+        />
+        <div class="info-section__text fade-in-left">
+            <h2>A New Way to Explore the Characters of the Bible</h2>
+            <p>
+                Does it take a lot of effort reading the Bible? Bible Characters
+                will give you all the information about the characters in the
+                Bible into short, easy to read summaries. You can even have the
+                texts read aloud.
+            </p>
+            <a href="/about" class="btn">Read more</a>
+            <!-- TODO: Make link translatable -->
+        </div>
+    </section>
+
+    <section id="infographics" class="info-section infographics">
+        <div class="infographics__content">
+            <p class="starter-text pop-in">Amount of characters...</p>
+            <div class="circle-content pop-in">
+                <div class="circle circle-1">{CHARACTER_COUNT}</div>
+                <!-- Counts the amount of characters in the char-info.json (en) -->
+                <p>... to explore</p>
+            </div>
+            <div class="circle-content pop-in">
+                <div class="circle circle-2">
+                    <span id="node-count-display"></span>
+                    <!-- js to get the number is at the bottom  -->
+                </div>
+                <p>... in family tree</p>
+            </div>
+            <div id="overall-progress" class="circle-content pop-in">
+                <div id="overall-progress-circle" class="circle circle-3">
+                    <div id="overall-progress-text"></div>
+                </div>
+                <p>Your current progress</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="beliefs" class="beliefs info-section">
+        <div class="beliefs__text">
+            <h2 class="fade-in-left">A Life Worth Living</h2>
+            <p class="fade-in-left">
+                There is no denying we are all going to pass away some day. Some
+                people choose not to think about it, <strong
+                    >we embrace it</strong
+                >.
+            </p>
+
+            <p class="fade-in-left">
+                Jesus, when he lived here 2000 years ago, did incredible things.
+                He healed people, showed <strong
+                    >love, compassion and grace</strong
+                >, he stunned the Pharisees with his teachings, but most
+                importantly he made us a promise:
+                <br />
+                <br />
+                <strong>We shall not perish</strong> if we choose to believe in him.
+                He took our sin with him on the cross, and it was buried for eternity
+                as he rose from the dead on the third day. This is <strong
+                    >God's gift to us</strong
+                >.
+            </p>
+
+            <p class="fade-in-left">
+                As Christians we let this affect our daily life. We don't have
+                to worry about what is going to happen to us when we pass away.
+                The gift we have received has made us want to show love and
+                <strong>share the gospel</strong> with others. Essentially, that
+                is what has inspired us to make this website.
+            </p>
+
+            <p class="fade-in-left">
+                Hopefully Bible Characters can inspire you to read this
+                fantastic book called <strong>the Bible</strong>.
+            </p>
+        </div>
+    </section>
+
+    <!-- <ContactUs charPage="display: none;" /> -->
+
+    <!-- Fetch amount of nodes from the family tree for the infographics -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script lang="js">
+        async function countNodes() {
+            try {
+                // familyTree is loaded in the head in MainLayout
+                while (!window.familyTree) {
+                    await new Promise((resolve) => setTimeout(resolve, 100));
+                }
+
+                const root = d3.hierarchy(window.familyTree);
+                const nodeCount = root.descendants().length;
+
+                document.getElementById("node-count-display").innerText =
+                    nodeCount;
+            } catch (error) {
+                console.error("Error processing family tree data:", error);
+                document.getElementById("node-count-display").innerText =
+                    "Error";
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            countNodes();
+        });
+
+        ///// Scroll when clicking arrow
+        document.addEventListener("DOMContentLoaded", () => {
+            const scrollDownArrow =
+                document.getElementById("scroll-down-arrow");
+
+            if (scrollDownArrow) {
+                scrollDownArrow.addEventListener("click", (e) => {
+                    e.preventDefault();
+
+                    const halfViewportHeight = window.innerHeight * 0.5; // This is equivalent to 50svh
+
+                    window.scrollTo({
+                        top: halfViewportHeight,
+                        behavior: "smooth",
+                    });
+                });
+            }
+        });
+
+        ////// Move CTA outside .home-hero when 1300px or less
+        document.addEventListener("DOMContentLoaded", function () {
+            const homeHero = document.querySelector(".home-hero");
+            const cta = document.getElementById("hero-cta");
+            const homeHeroBottom = document.querySelector(".home-hero__bottom");
+
+            function moveCTA() {
+                if (window.innerWidth <= 1300) {
+                    if (cta.parentNode !== homeHero.nextElementSibling) {
+                        homeHero.after(cta);
+                    }
+                } else {
+                    if (cta.parentNode !== homeHeroBottom) {
+                        homeHeroBottom.appendChild(cta);
+                    }
+                }
+            }
+
+            // Initial call
+            moveCTA();
+
+            // Store the initial width
+            let previousWidth = window.innerWidth;
+
+            // Call on window resize, but only if width has changed
+            window.addEventListener("resize", function () {
+                if (window.innerWidth !== previousWidth) {
+                    moveCTA();
+                    previousWidth = window.innerWidth;
+                }
+            });
+        });
+    </script>
+
+    <!-- Load the overall character progress -->
+    <script src="/src/scripts/progress-overview.js"></script>
+</Layout>
