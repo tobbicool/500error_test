@@ -5,7 +5,7 @@ import path from 'path';
 export function countCharacters() {
   try {
     const filePath = path.join(process.cwd(), 'public', 'locales', 'en', 'char-info.json');
-    console.log('Attempting to read file from:', filePath);
+    // console.log('Attempting to read file from:', filePath);
     
     if (!fs.existsSync(filePath)) {
       console.error('File does not exist:', filePath);
@@ -13,11 +13,11 @@ export function countCharacters() {
     }
 
     const data = fs.readFileSync(filePath, 'utf-8');
-    console.log('File contents:', data.substring(0, 100) + '...'); // Log the first 100 characters
+    // console.log('File contents:', data.substring(0, 100) + '...'); // Log the first 100 characters
 
     const json = JSON.parse(data);
     const count = Object.keys(json.characters).length;
-    console.log('Character count:', count);
+    // console.log('Character count:', count);
     
     return count;
   } catch (error) {
@@ -27,4 +27,4 @@ export function countCharacters() {
 }
 
 export const CHARACTER_COUNT = countCharacters();
-console.log('Exported CHARACTER_COUNT:', CHARACTER_COUNT);
+// console.log('Exported CHARACTER_COUNT:', CHARACTER_COUNT);
