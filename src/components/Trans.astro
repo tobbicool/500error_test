@@ -1,8 +1,13 @@
 ---
-import { i18n } from '../i18n';
 import DOMPurify from 'isomorphic-dompurify';
 
-const { key, ns = 'common' } = Astro.props;
+// Receive i18n as a prop
+const { key, ns = 'common', i18n } = Astro.props;
+
+// Check if i18n is provided
+if (!i18n) {
+  throw new Error('i18n instance not provided to Trans component');
+}
 
 const unsafeHtml = i18n.t(key, { ns });
 

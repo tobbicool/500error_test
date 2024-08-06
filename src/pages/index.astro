@@ -15,9 +15,9 @@ import { getLanguageFromURL } from "../utils/language-utils.js";
 
 // Get the language from the URL
 const lang = getLanguageFromURL(Astro.url.pathname);
+const i18n = await initI18n(lang);
 
 // Initialize i18n with the detected language
-const i18n = await initI18n(lang);
 
 function getLocalizedPath(key: string) {
     const basePath = i18n.t(key);
@@ -29,7 +29,7 @@ function getLocalizedPath(key: string) {
 }
 ---
 
-<Layout title={i18n.t("title", { ns: "home" })}>
+<Layout title="Home Page" i18n={i18n}>
     <section class="home-hero fadeInDown">
         <div class="home-hero__top">
             <!-- <InfiniteSlider /> -->
