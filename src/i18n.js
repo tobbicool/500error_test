@@ -1,29 +1,33 @@
 // src/i18n.js
 import i18next from 'i18next';
-import fs from 'fs/promises';
-import path from 'path';
+
+import { logNetlifyEnvironment } from './logger.js';
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
+
+export const languageMapping = {
+  'nb': 'no',
+  'nn': 'no',
+  'nb-no': 'no',
+  'nn-no': 'no',
+  'en-us': 'en',
+  'en-gb': 'en',
+};
+
 export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
+// This function will be replaced with an API call in the browser
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
     // Server-side: Use fs and path
+    const fs = await import('fs');
+    const path = await import('path');
+    const filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
     try {
-      let filePath;
-      if (process.env.NETLIFY) {
-        // Netlify environment
-        filePath = path.join(process.cwd(), 'dist', 'locales', lng, `${ns}.json`);
-      } else {
-        // Local environment
-        filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
-      }
-      console.log(`Attempting to read file from: ${filePath}`);
-      const data = await fs.readFile(filePath, 'utf8');
-      console.log(`Successfully read file from: ${filePath}`);
+      const data = await fs.promises.readFile(filePath, 'utf8');
       return JSON.parse(data);
     } catch (error) {
       console.error(`Failed to load translations for ${lng}/${ns}:`, error);
@@ -42,6 +46,8 @@ async function loadTranslations(lng, ns) {
 }
 
 export async function initI18n() {
+  logNetlifyEnvironment();
+
   const resources = {};
   for (const lng of supportedLngs) {
     resources[lng] = {};
@@ -57,7 +63,7 @@ export async function initI18n() {
     defaultNS: 'common',
     resources,
     interpolation: {
-      escapeValue: false
+      escapeValue: false // This allows HTML in translations
     }
   });
 

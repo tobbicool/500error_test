@@ -2,7 +2,42 @@ import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as a
 import 'kleur/colors';
 import 'clsx';
 import i18next from 'i18next';
+import fs from 'fs';
+import path from 'path';
 import DOMPurify from 'isomorphic-dompurify';
+
+function logDirectoryContents(dir, level = 0) {
+  const indent = '  '.repeat(level);
+  console.log(`${indent}${dir}:`);
+  
+  try {
+    const items = fs.readdirSync(dir);
+    for (const item of items) {
+      const itemPath = path.join(dir, item);
+      const stats = fs.statSync(itemPath);
+      
+      if (stats.isDirectory()) {
+        logDirectoryContents(itemPath, level + 1);
+      } else {
+        console.log(`${indent}  ${item}`);
+      }
+    }
+  } catch (error) {
+    console.error(`${indent}Error reading ${dir}: ${error.message}`);
+  }
+}
+
+function logNetlifyEnvironment() {
+  console.log('Netlify Environment Directory Structure:');
+  console.log('Current working directory:', process.cwd());
+  logDirectoryContents('/var/task');
+  logDirectoryContents(process.cwd());
+  
+  console.log('Environment Variables:');
+  console.log('NETLIFY:', process.env.NETLIFY);
+  console.log('CONTEXT:', process.env.CONTEXT);
+  console.log('DEPLOY_PRIME_URL:', process.env.DEPLOY_PRIME_URL);
+}
 
 // src/i18n.js
 
@@ -13,17 +48,16 @@ const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
+// This function will be replaced with an API call in the browser
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    // Server-side: Use environment variables or a different approach
+    // Server-side: Use fs and path
+    const fs = await import('fs');
+    const path = await import('path');
+    const filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
     try {
-      // This assumes you've set up environment variables for each translation
-      const envKey = `TRANSLATION_${lng.toUpperCase()}_${ns.toUpperCase()}`;
-      const translationJson = process.env[envKey];
-      if (!translationJson) {
-        throw new Error(`Translation not found for ${lng}/${ns}`);
-      }
-      return JSON.parse(translationJson);
+      const data = await fs.promises.readFile(filePath, 'utf8');
+      return JSON.parse(data);
     } catch (error) {
       console.error(`Failed to load translations for ${lng}/${ns}:`, error);
       return {};
@@ -41,6 +75,8 @@ async function loadTranslations(lng, ns) {
 }
 
 async function initI18n() {
+  logNetlifyEnvironment();
+
   const resources = {};
   for (const lng of supportedLngs) {
     resources[lng] = {};
@@ -62,18 +98,6 @@ async function initI18n() {
 
   return i18n;
 }
-
-i18n.on('initialized', (options) => {
-  console.log('i18next initialized with options:', JSON.stringify(options, null, 2));
-});
-
-i18n.on('loaded', (loaded) => {
-  console.log('i18next resources loaded:', JSON.stringify(loaded, null, 2));
-});
-
-i18n.on('failedLoading', (lng, ns, msg) => {
-  console.error(`i18next failed loading: ${lng} ${ns} ${msg}`);
-});
 
 // This js will make sure the pages are translated
 
