@@ -8,7 +8,8 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postbuild": "netlify functions:invoke copy-locales"
   },
   "dependencies": {
     "@astrojs/internal-helpers": "^0.4.1",
