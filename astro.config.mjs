@@ -3,7 +3,9 @@ import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    edge: false,
+  }),
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'no'],
