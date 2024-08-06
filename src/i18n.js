@@ -43,7 +43,7 @@ async function loadTranslations(lng, ns) {
   }
 }
 
-export async function initI18n(lang = defaultLng) {
+export async function initI18n() {
   const resources = {};
   for (const lng of supportedLngs) {
     resources[lng] = {};
@@ -55,12 +55,11 @@ export async function initI18n(lang = defaultLng) {
   await i18n.init({
     fallbackLng: defaultLng,
     supportedLngs,
-    lng: lang,
     ns: namespaces,
     defaultNS: 'common',
     resources,
     interpolation: {
-      escapeValue: false
+      escapeValue: false // This allows HTML in translations
     }
   });
 

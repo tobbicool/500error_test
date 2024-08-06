@@ -11,13 +11,10 @@ import { CHARACTER_COUNT } from "../utils/count-characters.js";
 // Translation
 import Trans from "../components/Trans.astro";
 import { initI18n } from "../i18n";
-import { getLanguageFromURL } from "../utils/language-utils.js";
+import { setupI18n } from "../utils/language-utils";
 
-// Get the language from the URL
-const lang = getLanguageFromURL(Astro.url.pathname);
-const i18n = await initI18n(lang);
-
-// Initialize i18n with the detected language
+const i18n = await initI18n();
+const lang = setupI18n(Astro.url.pathname);
 
 function getLocalizedPath(key: string) {
     const basePath = i18n.t(key);
@@ -29,7 +26,7 @@ function getLocalizedPath(key: string) {
 }
 ---
 
-<Layout title="Home Page" i18n={i18n}>
+<Layout title={i18n.t("title", { ns: "home" })}>
     <section class="home-hero fadeInDown">
         <div class="home-hero__top">
             <!-- <InfiniteSlider /> -->

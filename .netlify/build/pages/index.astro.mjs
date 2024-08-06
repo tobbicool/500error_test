@@ -1,7 +1,7 @@
 import { c as createComponent, r as renderTemplate, a as addAttribute, d as renderHead, e as renderSlot, b as createAstro, f as renderComponent, m as maybeRenderHead } from '../chunks/astro/server_BT9xpBHY.mjs';
 import 'kleur/colors';
 import 'clsx';
-import { g as getLanguageFromURL, i as initI18n, $ as $$Trans } from '../chunks/Trans_Un3I2ONK.mjs';
+import { s as setupI18n, i as initI18n, $ as $$Trans } from '../chunks/Trans_CfystUqx.mjs';
 /* empty css                                 */
 import fs from 'fs';
 import path from 'path';
@@ -12,8 +12,8 @@ const $$MainLayout = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$MainLayout;
   Astro2.props;
-  const lang = getLanguageFromURL(Astro2.url.pathname);
-  const i18n = await initI18n(lang);
+  const lang = setupI18n(Astro2.url.pathname);
+  const i18n = await initI18n();
   i18n.changeLanguage(lang);
   return renderTemplate`<html${addAttribute(lang, "lang")}> <head><!--
         Author: Tobias Norheim
@@ -66,14 +66,14 @@ const $$Astro = createAstro();
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Index;
-  const lang = getLanguageFromURL(Astro2.url.pathname);
-  const i18n = await initI18n(lang);
+  const i18n = await initI18n();
+  const lang = setupI18n(Astro2.url.pathname);
   function getLocalizedPath(key) {
     const basePath = i18n.t(key);
     const normalizedBasePath = basePath.startsWith("/") ? basePath.slice(1) : basePath;
     return `/${lang === "en" ? "" : lang + "/"}${normalizedBasePath}`;
   }
-  return renderTemplate`${renderComponent($$result, "Layout", $$MainLayout, { "title": "Home Page", "i18n": i18n }, { "default": ($$result2) => renderTemplate(_a || (_a = __template([" ", '<section class="home-hero fadeInDown"> <div class="home-hero__top"> <!-- <InfiniteSlider /> --> </div> <div class="home-hero__bottom"> <header class="fadeInDown fade2"> <h1>', "</h1> <p>", '</p> <!-- <SearchBar enableStyleChange={false} /> --> </header> <a href="#" class="arrow-down" id="scroll-down-arrow"> <img src="/media/icons/arrow.svg" alt="Scroll"> </a> <div id="hero-cta" class="home-hero__cta"> <div class="home-hero__card fadeInDown fade4"> <img src="/media/icons/fam-tree-icon.svg" alt=""> <a class="btn"', "> ", ' </a> </div> <div class="home-hero__card fadeInDown fade5"> <img src="/media/icons/char-list-icon.svg" alt=""> <a class="btn"', "> ", ' </a> </div> </div> </div> </section> <section id="about" class="about info-section"> <img class="fade-in-left" src="/media/home/explore-characters.svg" alt="home:altAboutImg"> <div class="info-section__text fade-in-left"> <h2>A New Way to Explore the Characters of the Bible</h2> <p>\nDoes it take a lot of effort reading the Bible? Bible Characters\n                will give you all the information about the characters in the\n                Bible into short, easy to read summaries. You can even have the\n                texts read aloud.\n</p> <a href="/about" class="btn">Read more</a> <!-- TODO: Make link translatable --> </div> </section> <section id="infographics" class="info-section infographics"> <div class="infographics__content"> <p class="starter-text pop-in">Amount of characters...</p> <div class="circle-content pop-in"> <div class="circle circle-1">', `</div> <!-- Counts the amount of characters in the char-info.json (en) --> <p>... to explore</p> </div> <div class="circle-content pop-in"> <div class="circle circle-2"> <span id="node-count-display"></span> <!-- js to get the number is at the bottom  --> </div> <p>... in family tree</p> </div> <div id="overall-progress" class="circle-content pop-in"> <div id="overall-progress-circle" class="circle circle-3"> <div id="overall-progress-text"></div> </div> <p>Your current progress</p> </div> </div> </section> <section id="beliefs" class="beliefs info-section"> <div class="beliefs__text"> <h2 class="fade-in-left">A Life Worth Living</h2> <p class="fade-in-left">
+  return renderTemplate`${renderComponent($$result, "Layout", $$MainLayout, { "title": i18n.t("title", { ns: "home" }) }, { "default": ($$result2) => renderTemplate(_a || (_a = __template([" ", '<section class="home-hero fadeInDown"> <div class="home-hero__top"> <!-- <InfiniteSlider /> --> </div> <div class="home-hero__bottom"> <header class="fadeInDown fade2"> <h1>', "</h1> <p>", '</p> <!-- <SearchBar enableStyleChange={false} /> --> </header> <a href="#" class="arrow-down" id="scroll-down-arrow"> <img src="/media/icons/arrow.svg" alt="Scroll"> </a> <div id="hero-cta" class="home-hero__cta"> <div class="home-hero__card fadeInDown fade4"> <img src="/media/icons/fam-tree-icon.svg" alt=""> <a class="btn"', "> ", ' </a> </div> <div class="home-hero__card fadeInDown fade5"> <img src="/media/icons/char-list-icon.svg" alt=""> <a class="btn"', "> ", ' </a> </div> </div> </div> </section> <section id="about" class="about info-section"> <img class="fade-in-left" src="/media/home/explore-characters.svg" alt="home:altAboutImg"> <div class="info-section__text fade-in-left"> <h2>A New Way to Explore the Characters of the Bible</h2> <p>\nDoes it take a lot of effort reading the Bible? Bible Characters\n                will give you all the information about the characters in the\n                Bible into short, easy to read summaries. You can even have the\n                texts read aloud.\n</p> <a href="/about" class="btn">Read more</a> <!-- TODO: Make link translatable --> </div> </section> <section id="infographics" class="info-section infographics"> <div class="infographics__content"> <p class="starter-text pop-in">Amount of characters...</p> <div class="circle-content pop-in"> <div class="circle circle-1">', `</div> <!-- Counts the amount of characters in the char-info.json (en) --> <p>... to explore</p> </div> <div class="circle-content pop-in"> <div class="circle circle-2"> <span id="node-count-display"></span> <!-- js to get the number is at the bottom  --> </div> <p>... in family tree</p> </div> <div id="overall-progress" class="circle-content pop-in"> <div id="overall-progress-circle" class="circle circle-3"> <div id="overall-progress-text"></div> </div> <p>Your current progress</p> </div> </div> </section> <section id="beliefs" class="beliefs info-section"> <div class="beliefs__text"> <h2 class="fade-in-left">A Life Worth Living</h2> <p class="fade-in-left">
 There is no denying we are all going to pass away some day. Some
                 people choose not to think about it, <strong>we embrace it</strong>.
 </p> <p class="fade-in-left">

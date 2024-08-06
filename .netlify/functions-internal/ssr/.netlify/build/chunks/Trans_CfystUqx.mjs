@@ -1,7 +1,7 @@
-import i18next from 'i18next';
 import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as addAttribute, u as unescapeHTML, b as createAstro } from './astro/server_BT9xpBHY.mjs';
 import 'kleur/colors';
 import 'clsx';
+import i18next from 'i18next';
 import DOMPurify from 'isomorphic-dompurify';
 
 // src/i18n.js
@@ -39,7 +39,7 @@ async function loadTranslations(lng, ns) {
   }
 }
 
-async function initI18n(lang = defaultLng) {
+async function initI18n() {
   const resources = {};
   for (const lng of supportedLngs) {
     resources[lng] = {};
@@ -51,31 +51,35 @@ async function initI18n(lang = defaultLng) {
   await i18n.init({
     fallbackLng: defaultLng,
     supportedLngs,
-    lng: lang,
     ns: namespaces,
     defaultNS: 'common',
     resources,
     interpolation: {
-      escapeValue: false
+      escapeValue: false // This allows HTML in translations
     }
   });
 
   return i18n;
 }
 
-function getLanguageFromURL(pathname) {
-    const pathSegments = pathname.split('/').filter(Boolean);
-    return supportedLngs.includes(pathSegments[0]) ? pathSegments[0] : defaultLng;
+// This js will make sure the pages are translated
+
+function changeLanguage(pathname) {
+  const pathParts = pathname.split('/');
+  return pathParts[1] && supportedLngs.includes(pathParts[1]) ? pathParts[1] : defaultLng;
+}
+
+function setupI18n(pathname) {
+  const lang = changeLanguage(pathname);
+  i18n.changeLanguage(lang);
+  return lang;
 }
 
 const $$Astro = createAstro();
 const $$Trans = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Trans;
-  const { key, ns = "common", i18n } = Astro2.props;
-  if (!i18n) {
-    throw new Error("i18n instance not provided to Trans component");
-  }
+  const { key, ns = "common" } = Astro2.props;
   const unsafeHtml = i18n.t(key, { ns });
   const purifyConfig = {
     ALLOWED_TAGS: ["b", "i", "em", "strong", "a", "p", "br", "ul", "ol", "li"],
@@ -85,4 +89,4 @@ const $$Trans = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${maybeRenderHead()}<span class="i18n-span"${addAttribute(key, "data-i18n-key")}${addAttribute(ns, "data-i18n-ns")}>${unescapeHTML(safeHtml)}</span> `;
 }, "C:/Users/Tobias Norheim/OneDrive/Koding/deploy testing/github-g4pecm/src/components/Trans.astro", void 0);
 
-export { $$Trans as $, getLanguageFromURL as g, initI18n as i };
+export { $$Trans as $, initI18n as i, setupI18n as s };

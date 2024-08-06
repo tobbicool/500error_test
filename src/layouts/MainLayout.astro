@@ -6,22 +6,16 @@ import LanguageSelectionModal from "../components/LanguageSelectionModal.astro";
 import CookieConsentModal from "../components/CookieConsentModal.astro";
 
 // Translation
-import { getLanguageFromURL } from "../utils/language-utils.js";
 import { initI18n } from "../i18n";
+import { setupI18n } from "../utils/language-utils";
 
 interface Props {
     title: string;
-    i18n: any; // You might want to use a more specific type if available
 }
 
 const { title } = Astro.props;
-
-// Get the language from the URL
-const lang = getLanguageFromURL(Astro.url.pathname);
-
-// Initialize i18n with the detected language
-const i18n = await initI18n(lang);
-
+const lang = setupI18n(Astro.url.pathname);
+const i18n = await initI18n();
 
 i18n.changeLanguage(lang);
 ---
