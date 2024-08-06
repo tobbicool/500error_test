@@ -43,13 +43,7 @@ async function loadTranslations(lng, ns) {
   }
 }
 
-export async function initI18n(astroGlobal) {
-  let language = defaultLng;
-  
-  if (astroGlobal && astroGlobal.locals && astroGlobal.locals.language) {
-    language = astroGlobal.locals.language;
-  }
-
+export async function initI18n() {
   const resources = {};
   for (const lng of supportedLngs) {
     resources[lng] = {};
@@ -61,7 +55,6 @@ export async function initI18n(astroGlobal) {
   await i18n.init({
     fallbackLng: defaultLng,
     supportedLngs,
-    lng: language,
     ns: namespaces,
     defaultNS: 'common',
     resources,

@@ -13,7 +13,7 @@ import Trans from "../components/Trans.astro";
 import { initI18n } from "../i18n";
 import { setupI18n } from "../utils/language-utils";
 
-const i18n = await initI18n(Astro);
+const i18n = await initI18n();
 const lang = setupI18n(Astro.url.pathname);
 
 function getLocalizedPath(key: string) {
