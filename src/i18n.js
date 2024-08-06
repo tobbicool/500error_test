@@ -18,19 +18,39 @@ export const namespaces = ['common', 'routes', 'char-info'];
 const i18n = i18next.createInstance();
 
 // This function will be replaced with an API call in the browser
+import path from 'path';
+
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
     // Server-side: Use fs and path
     const fs = await import('fs');
-    const path = await import('path');
-    const filePath = path.resolve(`/locales/${lng}/${ns}.json`);
-    try {
-      const data = await fs.promises.readFile(filePath, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-      return {};
+    
+    // Determine the base path
+    const basePath = process.env.NETLIFY 
+      ? path.join(process.cwd(), '.next/server/pages') 
+      : path.resolve('.');
+
+    // Try multiple possible paths
+    const possiblePaths = [
+      path.join(basePath, 'dist', 'locales', lng, `${ns}.json`),
+      path.join(basePath, 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), 'dist', 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), 'locales', lng, `${ns}.json`),
+    ];
+
+    for (const filePath of possiblePaths) {
+      try {
+        console.log(`Attempting to read file from: ${filePath}`);
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        console.log(`Successfully read file from: ${filePath}`);
+        return JSON.parse(data);
+      } catch (error) {
+        console.error(`Failed to read file from ${filePath}:`, error.message);
+      }
     }
+
+    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
+    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
