@@ -1,0 +1,143 @@
+{
+  "characters": {
+    "god": {
+      "name": "God",
+      "url": "/characters/god",
+      "isRenowned": true,
+      "isNewTestament": true,
+      "testament": "BOTH",
+      "description": "God is the supreme being, creator, and principal object of faith in Christianity. God's characteristics include omnipotence, omniscience, omnipresence, and perfect goodness.",
+      "nameMeaning": "Supreme Being",
+      "lifeSpan": "Eternal",
+      "occupation": "Creator, ruler of the universe",
+      "nationality": "N/A"
+    },
+    "paul": {
+      "name": "Paul",
+      "url": "/characters/paul",
+      "isNewTestament": true,
+      "testament": "NT",
+      "description": "Paul, originally known as Saul of Tarsus, was an apostle who taught the gospel of Christ to the first-century world. His epistles form a crucial part of the New Testament.",
+      "nameMeaning": "Small or humble",
+      "lifeSpan": "5-67AD (62 years old)",
+      "occupation": "Apostle, tentmaker",
+      "nationality": "Roman"
+    },
+    "john": {
+      "name": "John",
+      "url": "/characters/john",
+      "isNewTestament": true,
+      "testament": "NT",
+      "description": "John the Apostle was one of the Twelve Apostles of Jesus and traditionally believed to be the author of the Gospel of John, the Epistles of John, and the Book of Revelation.",
+      "nameMeaning": "Yahweh is gracious",
+      "lifeSpan": "6-100AD (94 years old)",
+      "occupation": "Apostle, fisherman",
+      "nationality": "Jewish"
+    },
+    "jesus": {
+      "name": "Jesus",
+      "url": "/characters/jesus",
+      "isRenowned": true,
+      "isNewTestament": true,
+      "testament": "NT",
+      "description": "Jesus of Nazareth, also known as Jesus Christ, is the central figure of Christianity, believed to be the incarnation of God the Son and the awaited Messiah (Christ) prophesied in the Old Testament.",
+      "nameMeaning": "Yahweh is salvation",
+      "lifeSpan": "4BC-30/33AD (33-36 years old)",
+      "occupation": "Carpenter, teacher",
+      "nationality": "Jewish"
+    },
+    "matthew": {
+      "name": "Matthew",
+      "url": "/characters/matthew",
+      "isNewTestament": true,
+      "testament": "NT",
+      "description": "Matthew the Apostle, also known as Levi, was one of the twelve apostles of Jesus and traditionally regarded as the author of the Gospel of Matthew.",
+      "nameMeaning": "Gift of Yahweh",
+      "lifeSpan": "1st century AD",
+      "occupation": "Tax collector, apostle",
+      "nationality": "Jewish"
+    },
+
+
+    
+    "adam": {
+      "name": "Adam",
+      "url": "/characters/adam",
+      "isRenowned": true,
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "Adam is the first man created by God according to the Bible. He is a central figure in the Book of Genesis and is considered the progenitor of the human race.",
+      "nameMeaning": "Man or mankind",
+      "lifeSpan": "930 years",
+      "occupation": "Gardener, caretaker",
+      "nationality": "N/A"
+    },
+    "eve": {
+      "name": "Eve",
+      "url": "/characters/eve",
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "Eve is the first woman created by God according to the Bible. She is a central figure in the Book of Genesis and is considered the mother of all living.",
+      "nameMeaning": "Life or living",
+      "lifeSpan": "N/A",
+      "occupation": "N/A",
+      "nationality": "N/A"
+    },
+    "moses": {
+      "name": "Moses",
+      "url": "/characters/moses",
+      "isRenowned": true,
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "Moses played a pivotal role in shaping the destiny of the Israelites and influencing the moral and cultural fabric of the world. His life is chronicled in several books of the Bible, including Exodus, Leviticus, Numbers, and Deuteronomy.",
+      "nameMeaning": "“To pull out”",
+      "lifeSpan": "1400-1200BC (120 years old)",
+      "occupation": "Shepherd, teacher and leader",
+      "nationality": "Egyptian, Israelite"     
+    },
+    "noah": {
+      "name": "Noah",
+      "url": "/characters/noah",
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "Noah is a key figure in the Bible known for building an ark to save his family and two of every kind of animal from the Great Flood. His story is detailed in the Book of Genesis.",
+      "nameMeaning": "Rest or comfort",
+      "lifeSpan": "950 years",
+      "occupation": "Farmer, shipbuilder",
+      "nationality": "N/A"
+    },
+    "david": {
+      "name": "David",
+      "url": "/characters/david",
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "David was the second king of Israel and Judah, renowned for his military prowess, musical skills, and authorship of many Psalms. His story is found in the Books of Samuel, Kings, and Chronicles.",
+      "nameMeaning": "Beloved",
+      "lifeSpan": "1040-970BC (70 years old)",
+      "occupation": "Shepherd, king, musician",
+      "nationality": "Israelite"
+    },
+    "isaiah": {
+      "name": "Isaiah",
+      "url": "/characters/isaiah",
+      "isNewTestament": false,
+      "testament": "OT",
+      "description": "Isaiah was a prophet in the 8th century BC, whose prophecies are recorded in the Book of Isaiah. He is known for his messages of judgment and hope, and his vision of the coming Messiah.",
+      "nameMeaning": "Yahweh is salvation",
+      "lifeSpan": "8th century BC",
+      "occupation": "Prophet",
+      "nationality": "Israelite"
+    }
+  },
+
+
+  "general": {
+    "buttonLink": "Explore character",
+    "nameMeaning": "Name meaning",
+    "lifeSpan": "Life span",
+    "occupation": "Occupation",
+    "nationality": "Nationality",
+    
+    "noResults": "No results found"
+  }
+}

@@ -1,7 +1,11 @@
 // src/i18n.js
 import i18next from 'i18next';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
@@ -27,9 +31,12 @@ function resolveLocalePath(lng, ns) {
   ];
 
   for (const filePath of possibilities) {
-    if (fs.existsSync(filePath)) {
+    try {
+      fs.accessSync(filePath, fs.constants.R_OK);
       console.log(`Found locale file: ${filePath}`);
       return filePath;
+    } catch (error) {
+      // File doesn't exist or is not readable
     }
   }
 
@@ -44,7 +51,7 @@ async function loadTranslations(lng, ns) {
     // Server-side: Use fs and path
     try {
       const filePath = resolveLocalePath(lng, ns);
-      const data = await fs.promises.readFile(filePath, 'utf8');
+      const data = await fs.readFile(filePath, 'utf8');
       return JSON.parse(data);
     } catch (error) {
       console.error(`Failed to load translations for ${lng}/${ns}:`, error);
@@ -85,7 +92,6 @@ export async function initI18n() {
   return i18n;
 }
 
-// Add these event listeners for better debugging
 i18n.on('initialized', (options) => {
   console.log('i18next initialized with options:', JSON.stringify(options, null, 2));
 });
