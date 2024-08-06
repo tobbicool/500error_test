@@ -1,30 +1,19 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 
+import { fileURLToPath } from 'url';
+import path from 'path';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
   output: 'server',
   adapter: netlify(),
-  hooks: {
-    'astro:config:setup': ({ updateConfig }) => {
-      updateConfig({
-        vite: {
-          plugins: [
-            {
-              name: 'bypass-netlify-nft',
-              resolveId(source) {
-                if (source.includes('@astrojs/netlify/dist/lib/nft')) {
-                  return 'virtual:empty-module';
-                }
-              },
-              load(id) {
-                if (id === 'virtual:empty-module') {
-                  return 'export function copyDependenciesToFunction() { return Promise.resolve({ handler: "entry.mjs" }); }';
-                }
-              },
-            },
-          ],
-        },
-      });
+  vite: {
+    resolve: {
+      alias: {
+        '@astrojs/netlify/dist/lib/nft': path.resolve(__dirname, './empty-nft.js'),
+      },
     },
   },
   i18n: {
