@@ -11,10 +11,13 @@ import { CHARACTER_COUNT } from "../utils/count-characters.js";
 // Translation
 import Trans from "../components/Trans.astro";
 import { initI18n } from "../i18n";
-import { setupI18n } from "../utils/language-utils";
+import { getLanguageFromURL } from "../utils/language-utils.js";
 
-const i18n = await initI18n();
-const lang = setupI18n(Astro.url.pathname);
+// Get the language from the URL
+const lang = getLanguageFromURL(Astro.url.pathname);
+
+// Initialize i18n with the detected language
+const i18n = await initI18n(lang);
 
 function getLocalizedPath(key: string) {
     const basePath = i18n.t(key);

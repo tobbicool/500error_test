@@ -2,16 +2,20 @@
 
 
 // Translation
+import { getLanguageFromURL } from "../utils/language-utils.js";
 import { initI18n } from "../i18n";
-import { setupI18n } from "../utils/language-utils.js";
 
 interface Props {
     title: string;
 }
 
 const { title } = Astro.props;
-const lang = setupI18n(Astro.url.pathname);
-const i18n = await initI18n();
+
+// Get the language from the URL
+const lang = getLanguageFromURL(Astro.url.pathname);
+
+// Initialize i18n with the detected language
+const i18n = await initI18n(lang);
 
 i18n.changeLanguage(lang);
 ---

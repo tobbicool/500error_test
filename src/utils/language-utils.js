@@ -1,13 +1,6 @@
-// This js will make sure the pages are translated
-import { i18n, supportedLngs, defaultLng } from '../i18n';
+import { supportedLngs, defaultLng } from "../i18n";
 
-export function changeLanguage(pathname) {
-  const pathParts = pathname.split('/');
-  return pathParts[1] && supportedLngs.includes(pathParts[1]) ? pathParts[1] : defaultLng;
-}
-
-export function setupI18n(pathname) {
-  const lang = changeLanguage(pathname);
-  i18n.changeLanguage(lang);
-  return lang;
+export function getLanguageFromURL(pathname) {
+    const pathSegments = pathname.split('/').filter(Boolean);
+    return supportedLngs.includes(pathSegments[0]) ? pathSegments[0] : defaultLng;
 }
