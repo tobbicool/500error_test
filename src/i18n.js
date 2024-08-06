@@ -23,7 +23,7 @@ async function loadTranslations(lng, ns) {
     // Server-side: Use fs and path
     const fs = await import('fs');
     const path = await import('path');
-    const filePath = path.resolve(`locales/${lng}/${ns}.json`);
+    const filePath = path.resolve(`dist/locales/${lng}/${ns}.json`);
     try {
       const data = await fs.promises.readFile(filePath, 'utf8');
       return JSON.parse(data);
