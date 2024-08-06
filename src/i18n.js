@@ -1,11 +1,5 @@
 // src/i18n.js
 import i18next from 'i18next';
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
@@ -23,36 +17,17 @@ export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
-function resolveLocalePath(lng, ns) {
-  const possibilities = [
-    path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
-    path.join(process.cwd(), '.netlify', 'functions-internal', 'ssr', 'public', 'locales', lng, `${ns}.json`),
-    path.join('/var', 'task', 'public', 'locales', lng, `${ns}.json`)
-  ];
-
-  for (const filePath of possibilities) {
-    try {
-      fs.accessSync(filePath, fs.constants.R_OK);
-      console.log(`Found locale file: ${filePath}`);
-      return filePath;
-    } catch (error) {
-      // File doesn't exist or is not readable
-    }
-  }
-
-  console.error(`Unable to find locale file for ${lng}/${ns}`);
-  console.log('Current working directory:', process.cwd());
-  console.log('Directory contents:', fs.readdirSync(process.cwd()));
-  throw new Error(`Unable to find locale file for ${lng}/${ns}`);
-}
-
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    // Server-side: Use fs and path
+    // Server-side: Use environment variables or a different approach
     try {
-      const filePath = resolveLocalePath(lng, ns);
-      const data = await fs.readFile(filePath, 'utf8');
-      return JSON.parse(data);
+      // This assumes you've set up environment variables for each translation
+      const envKey = `TRANSLATION_${lng.toUpperCase()}_${ns.toUpperCase()}`;
+      const translationJson = process.env[envKey];
+      if (!translationJson) {
+        throw new Error(`Translation not found for ${lng}/${ns}`);
+      }
+      return JSON.parse(translationJson);
     } catch (error) {
       console.error(`Failed to load translations for ${lng}/${ns}:`, error);
       return {};

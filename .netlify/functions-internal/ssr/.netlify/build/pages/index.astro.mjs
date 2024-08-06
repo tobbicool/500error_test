@@ -1,7 +1,7 @@
 import { c as createComponent, r as renderTemplate, a as addAttribute, e as renderHead, f as renderSlot, b as createAstro, d as renderComponent, m as maybeRenderHead } from '../chunks/astro/server_CQbmQ8IQ.mjs';
 import 'kleur/colors';
 import 'clsx';
-import { s as setupI18n, i as initI18n, $ as $$Trans } from '../chunks/Trans_CHNHAsgP.mjs';
+import { s as setupI18n, i as initI18n, $ as $$Trans } from '../chunks/Trans_CYJGep5L.mjs';
 /* empty css                                 */
 import fs from 'fs';
 import path from 'path';
