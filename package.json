@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/netlify": "^5.3.3",
+    "@astrojs/netlify": "^5.5.0",
     "astro": "^4.13.1",
     "dompurify": "^3.1.6",
     "i18next": "^22.5.1",
