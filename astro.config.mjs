@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
+export { handler } from '../../.netlify/functions-internal/ssr/ssr.mjs';
 
 export default defineConfig({
   output: 'server',
