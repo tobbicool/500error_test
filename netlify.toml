@@ -5,4 +5,3 @@
 [functions]
   directory = ".netlify/functions-internal"
   node_bundler = "esbuild"
-  directory = "netlify/functions"
