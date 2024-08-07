@@ -9,26 +9,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   output: 'server',
-  adapter: netlify({
-    dist: new URL('./dist/', import.meta.url),
-  }),
-  vite: {
-    plugins: [
-      {
-        name: 'folder-tracker',
-        async buildStart() {
-          console.log('Build Start - Folder Structure:');
-          await logFolderContents(__dirname);
-        },
-        async closeBundle() {
-          console.log('\nBuild End - Folder Structure:');
-          await logFolderContents(__dirname);
-          console.log('\nDist Folder Structure:');
-          await logFolderContents(path.join(__dirname, 'dist'));
-        },
-      },
-    ],
-  },
+  adapter: netlify(),
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'no'],

@@ -19,23 +19,31 @@ export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
-async function loadTranslations(lng, ns) {
+import fs from 'fs/promises';
+import path from 'path';
+
+export async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    // Server-side: Fetch from deployed asset URL
-    try {
-      const assetUrl = `${process.env.URL}/locales/${lng}/${ns}.json`;
-      console.log(`Attempting to fetch from: ${assetUrl}`);
-      const response = await fetch(assetUrl);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+    // Server-side: Use fs and path
+    const possiblePaths = [
+      path.join(process.cwd(), 'dist', 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), 'locales', lng, `${ns}.json`),
+      path.join('/var/task', 'dist', 'locales', lng, `${ns}.json`),
+      path.join('/var/task', 'locales', lng, `${ns}.json`),
+    ];
+
+    for (const filePath of possiblePaths) {
+      try {
+        console.log(`Attempting to read file from: ${filePath}`);
+        const data = await fs.readFile(filePath, 'utf8');
+        console.log(`Successfully read file from: ${filePath}`);
+        return JSON.parse(data);
+      } catch (error) {
+        console.error(`Failed to read file from ${filePath}:`, error.message);
       }
-      const data = await response.json();
-      console.log(`Successfully fetched from: ${assetUrl}`);
-      return data;
-    } catch (error) {
-      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-      return {};
     }
+    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
+    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
