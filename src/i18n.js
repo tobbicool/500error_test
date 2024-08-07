@@ -27,12 +27,6 @@ export async function loadTranslations(lng, ns) {
     // Server-side: Use fs and path
     const possiblePaths = [
       path.join('public', 'locales', lng, `${ns}.json`),
-      // path.join('locales', lng, `${ns}.json`),
-      // path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
-      // path.join(process.cwd(), 'dist', 'locales', lng, `${ns}.json`),
-      // path.join(process.cwd(), 'locales', lng, `${ns}.json`),
-      // path.join('/var/task', 'dist', 'locales', lng, `${ns}.json`),
-      // path.join('/var/task', 'locales', lng, `${ns}.json`),
     ];
 
     for (const filePath of possiblePaths) {
