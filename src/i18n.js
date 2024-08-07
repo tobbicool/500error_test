@@ -19,33 +19,23 @@ export const namespaces = ['common', 'routes', 'char-info'];
 
 const i18n = i18next.createInstance();
 
-// This function will be replaced with an API call in the browser
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    const fs = await import('fs/promises');
-    const path = await import('path');
-    
-    const possiblePaths = [
-      path.join(process.cwd(), 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), '.netlify', 'functions-internal', 'ssr', 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), '.netlify', 'build', 'locales', lng, `${ns}.json`),
-      '/var/task/locales/${lng}/${ns}.json',
-      '/var/task/.netlify/functions-internal/ssr/locales/${lng}/${ns}.json',
-    ];
-    
-    for (const filePath of possiblePaths) {
-      try {
-        console.log(`Attempting to read file from: ${filePath}`);
-        const data = await fs.readFile(filePath, 'utf8');
-        console.log(`Successfully read file from: ${filePath}`);
-        return JSON.parse(data);
-      } catch (error) {
-        console.error(`Failed to read file from ${filePath}:`, error.message);
+    // Server-side: Fetch from deployed asset URL
+    try {
+      const assetUrl = `${process.env.URL}/locales/${lng}/${ns}.json`;
+      console.log(`Attempting to fetch from: ${assetUrl}`);
+      const response = await fetch(assetUrl);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
+      const data = await response.json();
+      console.log(`Successfully fetched from: ${assetUrl}`);
+      return data;
+    } catch (error) {
+      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
+      return {};
     }
-    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
-    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
