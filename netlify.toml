@@ -5,6 +5,3 @@
 [functions]
   directory = ".netlify/functions-internal"
   node_bundler = "esbuild"
-
-[[plugins]]
-  package = "@astrojs/netlify"
