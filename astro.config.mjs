@@ -1,6 +1,13 @@
 import { defineConfig } from 'astro/config';
 import netlify from '@astrojs/netlify';
 
+import { fileURLToPath } from 'url';
+import path from 'path';
+import fs from 'fs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const { logFolderContents } = require('./folder-tracker.js');
+
 export default defineConfig({
   output: 'server',
   adapter: netlify({
@@ -11,15 +18,15 @@ export default defineConfig({
       {
         name: 'folder-tracker',
         buildStart() {
-          const logFile = path.join(process.cwd(), 'folder-tracker.log');
+          const logFile = path.join(__dirname, 'folder-tracker.log');
           fs.writeFileSync(logFile, 'Build Start\n');
-          logFolderContents(process.cwd(), logFile);
+          logFolderContents(__dirname, logFile);
         },
-        writeBundle() {
-          const logFile = path.join(process.cwd(), 'folder-tracker.log');
+        closeBundle() {
+          const logFile = path.join(__dirname, 'folder-tracker.log');
           fs.appendFileSync(logFile, '\nBuild End\n');
-          logFolderContents(process.cwd(), logFile);
-          logFolderContents(path.join(process.cwd(), 'dist'), logFile);
+          logFolderContents(__dirname, logFile);
+          logFolderContents(path.join(__dirname, 'dist'), logFile);
         },
       },
     ],
