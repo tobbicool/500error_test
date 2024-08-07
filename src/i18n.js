@@ -23,8 +23,8 @@ const i18n = i18next.createInstance();
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
     // Server-side: Use fs and path
-    const fs = await import('fs');
-    const path = await import('path');
+    const fs = import('fs');
+    const path = import('path');
     const filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
     try {
       const data = await fs.promises.readFile(filePath, 'utf8');
