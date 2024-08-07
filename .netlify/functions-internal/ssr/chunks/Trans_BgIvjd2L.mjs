@@ -2,42 +2,7 @@ import { c as createComponent, r as renderTemplate, m as maybeRenderHead, a as a
 import 'kleur/colors';
 import 'clsx';
 import i18next from 'i18next';
-import fs from 'fs';
-import path from 'path';
 import DOMPurify from 'isomorphic-dompurify';
-
-function logDirectoryContents(dir, level = 0) {
-  const indent = '  '.repeat(level);
-  console.log(`${indent}${dir}:`);
-  
-  try {
-    const items = fs.readdirSync(dir);
-    for (const item of items) {
-      const itemPath = path.join(dir, item);
-      const stats = fs.statSync(itemPath);
-      
-      if (stats.isDirectory()) {
-        logDirectoryContents(itemPath, level + 1);
-      } else {
-        console.log(`${indent}  ${item}`);
-      }
-    }
-  } catch (error) {
-    console.error(`${indent}Error reading ${dir}: ${error.message}`);
-  }
-}
-
-function logNetlifyEnvironment() {
-  console.log('Netlify Environment Directory Structure:');
-  console.log('Current working directory:', process.cwd());
-  logDirectoryContents('/var/task');
-  logDirectoryContents(process.cwd());
-  
-  console.log('Environment Variables:');
-  console.log('NETLIFY:', process.env.NETLIFY);
-  console.log('CONTEXT:', process.env.CONTEXT);
-  console.log('DEPLOY_PRIME_URL:', process.env.DEPLOY_PRIME_URL);
-}
 
 // src/i18n.js
 
@@ -54,14 +19,25 @@ async function loadTranslations(lng, ns) {
     // Server-side: Use fs and path
     const fs = await import('fs');
     const path = await import('path');
-    const filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
-    try {
-      const data = await fs.promises.readFile(filePath, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-      return {};
+    const possiblePaths = [
+      path.join(process.cwd(), 'dist', 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
+      path.join('/var/task', 'dist', 'locales', lng, `${ns}.json`),
+      path.join('/var/task', 'public', 'locales', lng, `${ns}.json`),
+    ];
+    
+    for (const filePath of possiblePaths) {
+      try {
+        console.log(`Attempting to read file from: ${filePath}`);
+        const data = await fs.promises.readFile(filePath, 'utf8');
+        console.log(`Successfully read file from: ${filePath}`);
+        return JSON.parse(data);
+      } catch (error) {
+        console.error(`Failed to read file from ${filePath}:`, error.message);
+      }
     }
+    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
+    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
@@ -75,7 +51,7 @@ async function loadTranslations(lng, ns) {
 }
 
 async function initI18n() {
-  logNetlifyEnvironment();
+  // logNetlifyEnvironment();
 
   const resources = {};
   for (const lng of supportedLngs) {

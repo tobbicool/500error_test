@@ -6,7 +6,13 @@ export default defineConfig({
   adapter: netlify({
     functionPerRoute: false,
     binaryMediaTypes: ['image/*', 'video/*', 'application/*', 'font/*'],
+    dist: new URL('./dist/', import.meta.url),
   }),
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'no'],

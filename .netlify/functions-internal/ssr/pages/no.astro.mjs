@@ -1,8 +1,8 @@
-import { c as createComponent, r as renderTemplate, d as renderComponent, b as createAstro, m as maybeRenderHead } from '../../chunks/astro/server_CQbmQ8IQ.mjs';
+import { c as createComponent, r as renderTemplate, d as renderComponent, b as createAstro, m as maybeRenderHead } from '../chunks/astro/server_CQbmQ8IQ.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../../chunks/Layout_BhV1lIeM.mjs';
-import { i as initI18n, s as setupI18n, $ as $$Trans } from '../../chunks/Trans_BtaEJTJm.mjs';
-export { renderers } from '../../renderers.mjs';
+import { $ as $$Layout } from '../chunks/Layout_DeymOI_c.mjs';
+import { i as initI18n, s as setupI18n, $ as $$Trans } from '../chunks/Trans_BgIvjd2L.mjs';
+export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro();
 const $$Index = createComponent(async ($$result, $$props, $$slots) => {
@@ -11,10 +11,10 @@ const $$Index = createComponent(async ($$result, $$props, $$slots) => {
   const i18n = await initI18n();
   setupI18n(Astro2.url.pathname);
   return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": i18n.t("title", { ns: "home" }) }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<section class="home-hero fadeInDown"> <div class="home-hero__top"></div> <div class="home-hero__bottom"> <header class="fadeInDown fade2"> <h1>${renderComponent($$result2, "Trans", $$Trans, { "key": "common:heroHeader" })}</h1> <h1>Hey</h1> <p>${renderComponent($$result2, "Trans", $$Trans, { "key": "common:heroDescription" })}</p> </header> </div> </section> ` })}`;
-}, "C:/Users/Tobias Norheim/OneDrive/Koding/deploy testing/github-g4pecm/src/pages/no/planter/index.astro", void 0);
+}, "C:/Users/Tobias Norheim/OneDrive/Koding/deploy testing/github-g4pecm/src/pages/no/index.astro", void 0);
 
-const $$file = "C:/Users/Tobias Norheim/OneDrive/Koding/deploy testing/github-g4pecm/src/pages/no/planter/index.astro";
-const $$url = "/no/planter";
+const $$file = "C:/Users/Tobias Norheim/OneDrive/Koding/deploy testing/github-g4pecm/src/pages/no/index.astro";
+const $$url = "/no";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
    __proto__: null,

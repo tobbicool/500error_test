@@ -4,9 +4,3 @@
 
 [functions]
   directory = ".netlify/functions-internal"
-
-[[plugins]]
-  package = "@netlify/plugin-functions-core"
-
-[[plugins]]
-  package = "@netlify/plugin-local-install-core"
