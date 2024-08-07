@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-function logDirectoryContents(dir, level = 0, maxDepth = 3) {
+function logDirectoryContents(dir, level = 0, maxDepth = 5) {
   if (level > maxDepth) return;
   
   const indent = '  '.repeat(level);
@@ -24,38 +24,28 @@ function logDirectoryContents(dir, level = 0, maxDepth = 3) {
   }
 }
 
-export function logNetlifyEnvironment() {
-  console.log('Netlify Environment Directory Structure:');
-  console.log('Current working directory:', process.cwd());
+export function logUsrDirectory() {
+  console.log('Logging /usr directory structure:');
+  logDirectoryContents('/usr', 0, 5);  // Increased max depth to 5 for more detailed exploration
   
+  // Specifically check for i18n or locales directories
   const dirsToCheck = [
-    '/var/task',
-    process.cwd(),
-    '/var/runtime',
-    '/opt',
-    '/var/lang',
-    '/',
-    '.netlify',
-    '.netlify/functions-internal',
-    '.netlify/functions-internal/ssr',
-    'dist',
-    'public'
+    '/usr/i18n',
+    '/usr/locales',
+    '/usr/src/i18n',
+    '/usr/src/locales',
+    '/usr/app/i18n',
+    '/usr/app/locales'
   ];
 
   dirsToCheck.forEach(dir => {
-    console.log(`\nChecking directory: ${dir}`);
-    logDirectoryContents(dir, 0, 4);  // Increased max depth to 4
+    console.log(`\nChecking specific directory: ${dir}`);
+    logDirectoryContents(dir, 0, 3);
   });
-  
+
   console.log('\nEnvironment Variables:');
   console.log('NETLIFY:', process.env.NETLIFY);
   console.log('CONTEXT:', process.env.CONTEXT);
   console.log('DEPLOY_PRIME_URL:', process.env.DEPLOY_PRIME_URL);
   console.log('LAMBDA_TASK_ROOT:', process.env.LAMBDA_TASK_ROOT);
-  console.log('AWS_LAMBDA_FUNCTION_NAME:', process.env.AWS_LAMBDA_FUNCTION_NAME);
-  console.log('AWS_LAMBDA_FUNCTION_MEMORY_SIZE:', process.env.AWS_LAMBDA_FUNCTION_MEMORY_SIZE);
-  console.log('AWS_LAMBDA_FUNCTION_VERSION:', process.env.AWS_LAMBDA_FUNCTION_VERSION);
-  
-  console.log('\nAll Environment Variables:');
-  console.log(JSON.stringify(process.env, null, 2));
 }
