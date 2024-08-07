@@ -3,7 +3,6 @@ import netlify from '@astrojs/netlify';
 
 import { fileURLToPath } from 'url';
 import path from 'path';
-import fs from 'fs/promises';
 import { logFolderContents } from './folder-tracker.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -18,20 +17,14 @@ export default defineConfig({
       {
         name: 'folder-tracker',
         async buildStart() {
-          const logFile = path.join(__dirname, 'dist', 'folder-tracker.log');
-          await fs.writeFile(logFile, 'Build Start\n');
-          await logFolderContents(__dirname, logFile);
+          console.log('Build Start - Folder Structure:');
+          await logFolderContents(__dirname);
         },
         async closeBundle() {
-          const logFile = path.join(__dirname, 'dist', 'folder-tracker.log');
-          await fs.appendFile(logFile, '\nBuild End\n');
-          await logFolderContents(__dirname, logFile);
-          await logFolderContents(path.join(__dirname, 'dist'), logFile);
-          
-          // Print the contents of the log file
-          const logContents = await fs.readFile(logFile, 'utf-8');
-          console.log('Folder Tracker Log:');
-          console.log(logContents);
+          console.log('\nBuild End - Folder Structure:');
+          await logFolderContents(__dirname);
+          console.log('\nDist Folder Structure:');
+          await logFolderContents(path.join(__dirname, 'dist'));
         },
       },
     ],
