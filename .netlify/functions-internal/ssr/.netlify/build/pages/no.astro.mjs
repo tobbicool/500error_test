@@ -1,7 +1,7 @@
 import { c as createComponent, r as renderTemplate, d as renderComponent, b as createAstro, m as maybeRenderHead } from '../chunks/astro/server_CQbmQ8IQ.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../chunks/Layout_C87BOsnL.mjs';
-import { i as initI18n, s as setupI18n, $ as $$Trans } from '../chunks/Trans_BIvsHw9o.mjs';
+import { $ as $$Layout } from '../chunks/Layout_B3PAHi-_.mjs';
+import { i as initI18n, s as setupI18n, $ as $$Trans } from '../chunks/Trans_BdFylph3.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro();

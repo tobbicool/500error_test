@@ -1,7 +1,7 @@
 import { c as createComponent, r as renderTemplate, a as addAttribute, e as renderHead, f as renderSlot, b as createAstro } from './astro/server_CQbmQ8IQ.mjs';
 import 'kleur/colors';
 import 'clsx';
-import { s as setupI18n, i as initI18n } from './Trans_9JWY7xSD.mjs';
+import { s as setupI18n, i as initI18n } from './Trans_BdFylph3.mjs';
 
 const $$Astro = createAstro();
 const $$Layout = createComponent(async ($$result, $$props, $$slots) => {

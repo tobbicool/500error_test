@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && node post-build-tracker.js",
-    "postbuild": "node post-build-tracker.js",
+    "build": "astro build && node post-build-tracker.mjs",
+    "postbuild": "node post-build-tracker.mjs",
     "preview": "astro preview",
     "astro": "astro"
   },
