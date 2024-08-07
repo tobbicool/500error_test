@@ -1,6 +1,10 @@
 [build]
-  command = "astro build && cp -r public/locales .netlify/functions-internal/ssr/"
+  command = "npm run build"
   publish = "dist"
 
 [functions]
   directory = ".netlify/functions-internal"
+  node_bundler = "esbuild"
+
+[[plugins]]
+  package = "@astrojs/netlify/functions"

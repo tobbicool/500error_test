@@ -6,7 +6,7 @@ export default defineConfig({
   adapter: netlify({
     functionPerRoute: false,
     dist: new URL('./dist/', import.meta.url),
-    includeFiles: ['./public/locales/**/*'],
+    includeFiles: ['./locales/**/*'],
   }),
   i18n: {
     defaultLocale: 'en',
