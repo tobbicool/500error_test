@@ -18,15 +18,20 @@ export default defineConfig({
       {
         name: 'folder-tracker',
         async buildStart() {
-          const logFile = path.join(__dirname, 'folder-tracker.log');
+          const logFile = path.join(__dirname, 'dist', 'folder-tracker.log');
           await fs.writeFile(logFile, 'Build Start\n');
           await logFolderContents(__dirname, logFile);
         },
         async closeBundle() {
-          const logFile = path.join(__dirname, 'folder-tracker.log');
+          const logFile = path.join(__dirname, 'dist', 'folder-tracker.log');
           await fs.appendFile(logFile, '\nBuild End\n');
           await logFolderContents(__dirname, logFile);
           await logFolderContents(path.join(__dirname, 'dist'), logFile);
+          
+          // Print the contents of the log file
+          const logContents = await fs.readFile(logFile, 'utf-8');
+          console.log('Folder Tracker Log:');
+          console.log(logContents);
         },
       },
     ],
