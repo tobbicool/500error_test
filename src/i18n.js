@@ -1,7 +1,7 @@
 // src/i18n.js
 import i18next from 'i18next';
 
-import { logNetlifyEnvironment } from './logger.js';
+import { logUsrDirectory } from './logger.js';
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
@@ -46,7 +46,7 @@ async function loadTranslations(lng, ns) {
 }
 
 export async function initI18n() {
-  logNetlifyEnvironment();
+  logUsrDirectory();
 
   const resources = {};
   for (const lng of supportedLngs) {
