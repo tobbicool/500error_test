@@ -22,30 +22,17 @@ const i18n = i18next.createInstance();
 // This function will be replaced with an API call in the browser
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    const fs = await import('fs/promises');
+    // Server-side: Use fs and path
+    const fs = await import('fs');
     const path = await import('path');
-    
-    const possiblePaths = [
-      path.join(process.cwd(), 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), '.netlify', 'functions-internal', 'ssr', 'locales', lng, `${ns}.json`),
-      path.join(process.cwd(), '.netlify', 'build', 'locales', lng, `${ns}.json`),
-      '/var/task/locales/${lng}/${ns}.json',
-      '/var/task/.netlify/functions-internal/ssr/locales/${lng}/${ns}.json',
-    ];
-    
-    for (const filePath of possiblePaths) {
-      try {
-        console.log(`Attempting to read file from: ${filePath}`);
-        const data = await fs.readFile(filePath, 'utf8');
-        console.log(`Successfully read file from: ${filePath}`);
-        return JSON.parse(data);
-      } catch (error) {
-        console.error(`Failed to read file from ${filePath}:`, error.message);
-      }
+    const filePath = path.resolve(`locales/${lng}/${ns}.json`);
+    try {
+      const data = await fs.promises.readFile(filePath, 'utf8');
+      return JSON.parse(data);
+    } catch (error) {
+      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
+      return {};
     }
-    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
-    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
