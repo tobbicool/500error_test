@@ -1,6 +1,0 @@
-[build]
-  command = "astro build && cp -r public/locales .netlify/functions-internal/ssr/"
-  publish = "dist"
-
-[functions]
-  directory = ".netlify/functions-internal"
