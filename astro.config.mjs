@@ -4,8 +4,8 @@ import netlify from '@astrojs/netlify';
 export default defineConfig({
   output: 'server',
   adapter: netlify({
-    functionPerRoute: false,
-    dist: new URL('./dist/', import.meta.url),
+    // functionPerRoute: false,
+    // dist: new URL('./dist/', import.meta.url),
     includeFiles: ['./locales/**/*'],
   }),
   i18n: {
