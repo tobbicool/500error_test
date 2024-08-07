@@ -3,7 +3,11 @@ import netlify from '@astrojs/netlify';
 
 export default defineConfig({
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    functionPerRoute: false,
+    dist: new URL('./dist/', import.meta.url),
+    includeFiles: ['./public/locales/**/*'],
+  }),
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'no'],

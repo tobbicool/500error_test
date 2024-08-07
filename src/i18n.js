@@ -1,7 +1,7 @@
 // src/i18n.js
 import i18next from 'i18next';
 
-import { logUsrDirectory } from './logger.js';
+import { logNetlifyEnvironment } from './logger.js';
 
 export const supportedLngs = ['en', 'no'];
 export const defaultLng = 'en';
@@ -22,17 +22,30 @@ const i18n = i18next.createInstance();
 // This function will be replaced with an API call in the browser
 async function loadTranslations(lng, ns) {
   if (typeof window === 'undefined') {
-    // Server-side: Use fs and path
-    const fs = await import('fs');
+    const fs = await import('fs/promises');
     const path = await import('path');
-    const filePath = path.resolve(`public/locales/${lng}/${ns}.json`);
-    try {
-      const data = await fs.promises.readFile(filePath, 'utf8');
-      return JSON.parse(data);
-    } catch (error) {
-      console.error(`Failed to load translations for ${lng}/${ns}:`, error);
-      return {};
+    
+    const possiblePaths = [
+      path.join(process.cwd(), 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), 'public', 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), '.netlify', 'functions-internal', 'ssr', 'locales', lng, `${ns}.json`),
+      path.join(process.cwd(), '.netlify', 'build', 'locales', lng, `${ns}.json`),
+      '/var/task/locales/${lng}/${ns}.json',
+      '/var/task/.netlify/functions-internal/ssr/locales/${lng}/${ns}.json',
+    ];
+    
+    for (const filePath of possiblePaths) {
+      try {
+        console.log(`Attempting to read file from: ${filePath}`);
+        const data = await fs.readFile(filePath, 'utf8');
+        console.log(`Successfully read file from: ${filePath}`);
+        return JSON.parse(data);
+      } catch (error) {
+        console.error(`Failed to read file from ${filePath}:`, error.message);
+      }
     }
+    console.error(`Failed to load translations for ${lng}/${ns} from any location`);
+    return {};
   } else {
     // Client-side: Fetch from an API endpoint
     try {
@@ -46,7 +59,7 @@ async function loadTranslations(lng, ns) {
 }
 
 export async function initI18n() {
-  logUsrDirectory();
+  // logNetlifyEnvironment();
 
   const resources = {};
   for (const lng of supportedLngs) {
